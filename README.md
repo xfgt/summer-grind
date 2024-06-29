@@ -1,6 +1,6 @@
 # summer-grind
 
-<div style="text-align: center;"><img src="misc/blacksmith-dwarf.gif" style="box-shadow: 2px 2px 7px 2px grey;" /></div><br><br>
+<div style="display: flex; justify-content: center;"><img src="misc/blacksmith-dwarf.gif" style="box-shadow: 2px 2px 7px 2px grey;" /></div><br><br>
 After my first year in university, I decided to practice the knowledge that I've gained which is mainly in DSA, OOP and C++ containers.
 
 It is created for the sake of self-improvement, but also as a compensation for not uploading all the homeworks that I've been working on during that year.
