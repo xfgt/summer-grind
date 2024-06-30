@@ -34,27 +34,46 @@ class GetWords{
         }
         return cnt;
     }
+    bool checkWord(char* word, int sz, char& x){
+        bool good = false;
+        for(int i = 0; i <= sz; i++){
+            if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity don't matter
+                good = true;
+                break;
+            }
+        }
+        return good;
+
+    }
     void assignWords(char* sample, char words[][20], int& sizex, char& x){
         int i{};
         int j{};
         int m {};
-        bool firstMet = false;
+
 
         while(sample[i] != '\0'){
             int r (-1);
-            while(sample[j] != ' ' && sample[j] != '\0' && r < 20){
+            char temp[20]{};
+            int g(-1);
+            bool isGood = false;
+            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && r < 20){
 
-                if(sample[j] == x || sample[j] == x - 32 || sample[j] == x + 32) firstMet = true;
-
-                if(firstMet) words[m][++r] = sample[j];
-
+                temp[++g] = sample[j];
                 j++;
             }
 
-            if(m <= sizex && firstMet) m++;
+            if(checkWord(temp, g, x)){
+                isGood = true;
+                int f{};
+                while(r < 20 && temp[f] != '\0')
+                    words[m][++r] = temp[f++];
+            }
+
+            if(m <= sizex && isGood) m++;
 
             i = ++j;
-            firstMet=false;
+            g=0;
+            isGood = false;
         }
 
     }
