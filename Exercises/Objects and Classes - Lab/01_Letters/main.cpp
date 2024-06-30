@@ -54,7 +54,7 @@ private:
 
     }
 
-    bool isDuplicate(char* word, char arrOfWords[][20], int m){
+    bool isDuplicate(char* word, char arrOfWords[][45], int m){
         for(int i = 0; i < m; i++){
             if(std::strcmp(arrOfWords[i], word) == 0) // works!
                 return true;
@@ -62,17 +62,17 @@ private:
         return false;
     }
 
-    void assignWords(char* sample, char words[][20], int& sizex, char& x){
+    void assignWords(char* sample, char words[][45], int& sizex, char& x){
         int i{};
         int j{};
         int m {};
         while(sample[i] != '\0'){
             int r (-1);
-            char temp[20]{};
+            char temp[45]{};
             int g(-1);
             bool isGood = false;
 
-            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && sample[j] != ',' && r < 20){
+            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && sample[j] != ',' && r < 45){
                 temp[++g] = sample[j];
                 j++;
             }
@@ -81,7 +81,7 @@ private:
                 if(!isDuplicate(temp, words, m)){
                     isGood = true;
                     int f{};
-                    while(r < 20 && temp[f] != '\0')
+                    while(r < 45 && temp[f] != '\0')
                         words[m][++r] = temp[f++];
                 }
 
@@ -102,10 +102,10 @@ private:
     }
 
 
-    void sortLexicographic(char words[][20], int& m){
+    void sortLexicographic(char words[][45], int& m){
         // perform bubble sort algorithm
-        char* temp = new char[20];
-        memset(temp, '\0', 20);
+        char* temp = new char[45];
+        memset(temp, '\0', 45);
         bool flag = 0;
         for(int i = 1; i < m-1; i++){
             flag = 0;
@@ -128,12 +128,12 @@ private:
 
     }
 
-    void printWords(char words[][20], int& x) const{
+    void printWords(char words[][45], int& x) const{
         for(int i = 0; i < x; i++){
             if(words[i][0] == '\0')
                 break;
 
-            for(int j = 0; j < 20; j++){
+            for(int j = 0; j < 45; j++){
                 if(words[i][j] != ' ' && words[i][j] != '\0'){
                     std::cout << words[i][j];
                 } else {
@@ -157,8 +157,8 @@ public:
         }
 
         int x = countWords(text, ch);
-        char words[x][20];
-        memset(words, '\0', x*20);
+        char words[x][45];
+        memset(words, '\0', x*45);
         assignWords(text, words, x, ch);
         printWords(words, x);
     }
