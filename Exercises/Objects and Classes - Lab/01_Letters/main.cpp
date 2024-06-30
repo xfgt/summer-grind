@@ -45,6 +45,23 @@ class GetWords{
         return good;
 
     }
+
+    bool isDuplicate(char* word, char arrOfWords[][20], int m){
+        for(int i = 0; i < m; i++){
+            char temp[20]{};
+            for(int j = 0 ; j < 20, arrOfWords[i][j] != '\0'; j++){
+                temp[j] = arrOfWords[i][j];
+            }
+            if(std::strcmp(temp, word) == 0)
+                return true;
+
+
+
+        }
+        return false;
+    }
+
+
     void assignWords(char* sample, char words[][20], int& sizex, char& x){
         int i{};
         int j{};
@@ -63,10 +80,14 @@ class GetWords{
             }
 
             if(checkWord(temp, g, x)){
-                isGood = true;
-                int f{};
-                while(r < 20 && temp[f] != '\0')
-                    words[m][++r] = temp[f++];
+                if(!isDuplicate(temp, words, m)){
+                    isGood = true;
+                    int f{};
+                    while(r < 20 && temp[f] != '\0')
+                        words[m][++r] = temp[f++];
+                }
+
+
             }
 
             if(m <= sizex && isGood) m++;
@@ -92,6 +113,7 @@ class GetWords{
         }
         std::cout << std::endl;
     }
+
 
 
 public:
