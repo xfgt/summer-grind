@@ -38,11 +38,17 @@ private:
 
     bool checkWord(char* word, int sz, char& x){
         bool good = false;
-        for(int i = 0; i <= sz; i++){
-            if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity doesn't matter
-                good = true;
-                break;
+        if(x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z'){
+            for(int i = 0; i <= sz; i++){
+                if(word[i] >= 'a' && word[i] <= 'z' || word[i] >= 'A' && word[i] <= 'Z'){ // nothing other than a letter
+                    if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity doesn't matter
+                        good = true;
+                        break;
+                    }
+                }
             }
+        } else {
+            return false;
         }
         return good;
 
@@ -65,8 +71,8 @@ private:
             char temp[20]{};
             int g(-1);
             bool isGood = false;
-            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && r < 20){
 
+            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && sample[j] != ',' && r < 20){
                 temp[++g] = sample[j];
                 j++;
             }
@@ -86,7 +92,12 @@ private:
             g=0;
             isGood = false;
         }
-        sortLexicographic(words, m);
+        if(m != 0)
+            sortLexicographic(words, m);
+        else{
+            for(int i = 0; i < 3; i++)
+                words[0][i] = '-';
+        }
 
     }
 
@@ -121,6 +132,7 @@ private:
         for(int i = 0; i < x; i++){
             if(words[i][0] == '\0')
                 break;
+
             for(int j = 0; j < 20; j++){
                 if(words[i][j] != ' ' && words[i][j] != '\0'){
                     std::cout << words[i][j];
@@ -170,8 +182,10 @@ int main(){
     while(letter != '.'){
         solve = new GetWords(inputText, letter);
         delete[] solve;
+
         std::cin >> letter;
         std::cin.clear();
+
     }
 
 
