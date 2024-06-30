@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
 
-        "Exercises/Objects and Classes - Lab/01_Letters/main.cpp"
+        "Exercises/Objects and Classes - Lab/02_Rust/main.cpp"
 
 )
