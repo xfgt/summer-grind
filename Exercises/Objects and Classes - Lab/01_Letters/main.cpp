@@ -18,6 +18,7 @@
 
 class GetWords{
 
+private:
     char ch{};
     char* text;
 
@@ -34,10 +35,11 @@ class GetWords{
         }
         return cnt;
     }
+
     bool checkWord(char* word, int sz, char& x){
         bool good = false;
         for(int i = 0; i <= sz; i++){
-            if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity don't matter
+            if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity doesn't matter
                 good = true;
                 break;
             }
@@ -48,26 +50,16 @@ class GetWords{
 
     bool isDuplicate(char* word, char arrOfWords[][20], int m){
         for(int i = 0; i < m; i++){
-            char temp[20]{};
-            for(int j = 0 ; j < 20, arrOfWords[i][j] != '\0'; j++){
-                temp[j] = arrOfWords[i][j];
-            }
-            if(std::strcmp(temp, word) == 0)
+            if(std::strcmp(arrOfWords[i], word) == 0) // works!
                 return true;
-
-
-
         }
         return false;
     }
-
 
     void assignWords(char* sample, char words[][20], int& sizex, char& x){
         int i{};
         int j{};
         int m {};
-
-
         while(sample[i] != '\0'){
             int r (-1);
             char temp[20]{};
@@ -87,17 +79,40 @@ class GetWords{
                         words[m][++r] = temp[f++];
                 }
 
-
             }
-
             if(m <= sizex && isGood) m++;
 
             i = ++j;
             g=0;
             isGood = false;
         }
+        //sortLexicographic(words, m);
 
     }
+
+
+    void sortLexicographic(char words[][20], int& m){
+        for(int i = 0; i < m-1; i++){
+            for(int j = 0 ; j < 20-1-i; j++){
+
+                char* wordA = words[i];
+                char* wordB = words[i+1];
+                char* temp{};
+
+
+
+                // default swap procedure
+                if(std::strcmp(wordA, wordB) > 0){
+                    std::strcpy(temp, wordA);
+                    std::strcpy(wordA, wordB);
+                    std::strcpy(wordB, temp);
+                }
+            }
+        }
+
+
+    }
+
     void printWords(char words[][20], int& x) const{
         for(int i = 0; i < x; i++){
             if(words[i][0] == '\0')
