@@ -86,29 +86,33 @@ private:
             g=0;
             isGood = false;
         }
-        //sortLexicographic(words, m);
+        sortLexicographic(words, m);
 
     }
 
 
     void sortLexicographic(char words[][20], int& m){
-        for(int i = 0; i < m-1; i++){
-            for(int j = 0 ; j < 20-1-i; j++){
+        // perform bubble sort algorithm
+        char* temp = new char[20];
+        memset(temp, '\0', 20);
+        bool flag = 0;
+        for(int i = 1; i < m-1; i++){
+            flag = 0;
 
-                char* wordA = words[i];
-                char* wordB = words[i+1];
-                char* temp{};
-
-
+            for(int j = 0 ; j < m-i; j++){
 
                 // default swap procedure
-                if(std::strcmp(wordA, wordB) > 0){
-                    std::strcpy(temp, wordA);
-                    std::strcpy(wordA, wordB);
-                    std::strcpy(wordB, temp);
+                if(std::strcmp(words[j], words[j+1]) > 0){
+                    flag = 1;
+                    std::strcpy(temp, words[j]);
+                    std::strcpy(words[j], words[j+1]);
+                    std::strcpy(words[j+1], temp);
                 }
             }
+            if(flag == 0)
+                break;
         }
+        delete[] temp;
 
 
     }
@@ -143,19 +147,9 @@ public:
         int x = countWords(text, ch);
         char words[x][20];
         memset(words, '\0', x*20);
-
         assignWords(text, words, x, ch);
-
         printWords(words, x);
-
-
-
     }
-
-
-
-
-
 
 
 };
@@ -175,10 +169,6 @@ int main(){
     GetWords* solve = nullptr;
     while(letter != '.'){
         solve = new GetWords(inputText, letter);
-
-
-
-
         delete[] solve;
         std::cin >> letter;
         std::cin.clear();
