@@ -42,7 +42,7 @@ private:
     }
 
     void makeRustCross(int x, int y){
-
+        //TODO: while m_unitTime > 0 make rust on new points
         if(y-1 >= 0) {
             if(m_matrix[x][y-1] != '#'){
                 m_matrix[x][y-1] = 'x';
@@ -95,6 +95,7 @@ public:
 
         for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_cols; ++j) {
+// TODO: swap 'x' with '!'
 //                if(m_matrix[i][j] == 'x')
 //                    m_matrix[i][j] = '!';
 
