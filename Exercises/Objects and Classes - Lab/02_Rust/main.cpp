@@ -57,85 +57,25 @@ private:
 
 
     void workPoints(){
-
         for (int i = 0; i < m_rows; i++) {
             for (int j = 0; j < m_cols; j++) {
                 if(m_matrix[i][j] ==  '!'){
-                    makeRhomboid(j, i); // j = x, i = y
-                    return;
+                    createStamp(i, j);
                 }
             }
         }
 
     }
-
-    void makeRhomboid (int x, int y){
-        // work with m_unitTime
-
-        int leftX{};
-        int rightX{};
-        // y const
-
-        int topY{};
-        int bottomY{};
+    void createStamp(int x, int y){
         // x const
+        if(m_matrix[x][y+1] != '#')     m_matrix[x][y+1] = '!';
+        if(m_matrix[x][y-1] != '#')     m_matrix[x][y-1] = '!';
 
-        // borders
-        for(int l =x, change =0; l >= 0 && change <= m_unitTime; l--, change++)
-            leftX = l;
-
-        for(int r =x, change =0; r < 10 && change <= m_unitTime; r++, change++)
-            rightX = r;
-
-        for(int t =y, change =0; t >= 0 && change <= m_unitTime; t--, change++)
-            topY = t;
-
-        for(int b =y, change =0; b < 10 && change <= m_unitTime; b++, change++)
-            bottomY = b;
-
-
-
-
-
-
-        // save the values
-        int lx = leftX;
-        int rx = rightX;
-        int ty = topY;
-        int by = bottomY;
-
-
-
-        // top
-        for(int i = y; i >= ty; i--){
-            //check row
-            for(int j = lx; j <= rx; j++){
-                if(m_matrix[i][j] != '#'){
-                    m_matrix[i][j] = '!';
-                }
-            }
-            lx++;
-            rx--;
-
-        }
-
-        lx = leftX+1;
-        rx = rightX-1;
-        y++;
-
-        // bottom
-        for(int i = y; i <= by; i++){
-            //check row
-            for(int j = lx; j <= rx; j++){
-                if(m_matrix[i][j] != '#'){
-                    m_matrix[i][j] = '!';
-                }
-            }
-            lx++;
-            rx--;
-        }
-
+        // y const
+        if(m_matrix[x+1][y] != '#')     m_matrix[x+1][y] = '!';
+        if(m_matrix[x-1][y] != '#')     m_matrix[x-1][y] = '!';
     }
+
 
 
 
