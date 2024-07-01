@@ -14,19 +14,6 @@
 // time
 
 
-
-/*
- * algorithm
- *
- * find '!'in the matrix
- * form there read the number of unit time (n)
- * make a rhomboid which is (n * 2 - 1) where each level up and down is (n * 2 - 1) - x, where x % 2 == 0;
- * for each new row created by (n * 2 - 1) - x, scan from start to x and determine whether it is a '.' or '#';
- * if it is a '#' skip, otherwise put '!'
- * print the new matrix
- */
-
-
 #include <iostream>
 #define ROWS 10
 #define COLS 10
@@ -55,31 +42,28 @@ private:
     }
 
     void makeRustCross(int x, int y){
-        int count = m_unitTime;
 
-
-            if(y-1 >= 0) {
-                if(m_matrix[x][y-1] != '#')
-                    m_matrix[x][y-1] = 'x';
+        if(y-1 >= 0) {
+            if(m_matrix[x][y-1] != '#'){
+                m_matrix[x][y-1] = 'x';
             }
-            if(y+1 <= m_rows-1){
-                if(m_matrix[x][y+1] != '#')
-                    m_matrix[x][y+1] = 'x';
+        }
+        if(y+1 <= m_rows-1){
+            if(m_matrix[x][y+1] != '#'){
+                m_matrix[x][y+1] = 'x';
             }
+        }
 
-            if(x-1 >= 0){
-                if(m_matrix[x-1][y] != '#')
-                    m_matrix[x-1][y] = 'x';
-
+        if(x-1 >= 0){
+            if(m_matrix[x-1][y] != '#'){
+                m_matrix[x-1][y] = 'x';
             }
-            if(x+1 <= m_cols-1){
-                if(m_matrix[x+1][y] != '#')
-                    m_matrix[x+1][y] = 'x';
-
+        }
+        if(x+1 <= m_cols-1){
+            if(m_matrix[x+1][y] != '#'){
+                m_matrix[x+1][y] = 'x';
             }
-
-
-
+        }
 
     }
 
@@ -93,10 +77,6 @@ private:
         }
 
     }
-
-
-
-
 
 
 public:
