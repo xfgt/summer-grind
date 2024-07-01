@@ -54,27 +54,46 @@ private:
         return count;
     }
 
+    void makeRustCross(int x, int y){
+        int count = m_unitTime;
 
+
+            if(y-1 >= 0) {
+                if(m_matrix[x][y-1] != '#')
+                    m_matrix[x][y-1] = 'x';
+            }
+            if(y+1 <= m_rows-1){
+                if(m_matrix[x][y+1] != '#')
+                    m_matrix[x][y+1] = 'x';
+            }
+
+            if(x-1 >= 0){
+                if(m_matrix[x-1][y] != '#')
+                    m_matrix[x-1][y] = 'x';
+
+            }
+            if(x+1 <= m_cols-1){
+                if(m_matrix[x+1][y] != '#')
+                    m_matrix[x+1][y] = 'x';
+
+            }
+
+
+
+
+    }
 
     void workPoints(){
         for (int i = 0; i < m_rows; i++) {
             for (int j = 0; j < m_cols; j++) {
                 if(m_matrix[i][j] ==  '!'){
-                    createStamp(i, j);
+                    makeRustCross(i, j); // assign with 'x'
                 }
             }
         }
 
     }
-    void createStamp(int x, int y){
-        // x const
-        if(m_matrix[x][y+1] != '#')     m_matrix[x][y+1] = '!';
-        if(m_matrix[x][y-1] != '#')     m_matrix[x][y-1] = '!';
 
-        // y const
-        if(m_matrix[x+1][y] != '#')     m_matrix[x+1][y] = '!';
-        if(m_matrix[x-1][y] != '#')     m_matrix[x-1][y] = '!';
-    }
 
 
 
@@ -92,9 +111,13 @@ public:
         workPoints();
     }
 
-    void printResult() const{
+    void printResult(){
+
         for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_cols; ++j) {
+//                if(m_matrix[i][j] == 'x')
+//                    m_matrix[i][j] = '!';
+
                 std::cout << m_matrix[i][j];
             }
             std::cout << std::endl;
