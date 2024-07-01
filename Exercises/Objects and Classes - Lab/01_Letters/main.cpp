@@ -1,20 +1,10 @@
 //
 // Created by User on 029-29.6.2024 г..
 //
-
-/* TODO order all met words starting with a char in lexicographic order
- *
-     text
-     character
-
-     extract all words that have 'char' in them
-     sort the found words in lexicographic order
-     print result
- */
+// TODO: fix 40/100
 
 #include <iostream>
 #include <cstring>
-
 
 class GetWords{
 
