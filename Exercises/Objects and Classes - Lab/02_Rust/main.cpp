@@ -3,15 +3,11 @@
 //
 
 
-// 10x10 matrix
-
+// input 1: 10x10 matrix
+// input 2: unit time
 // . healty
 // # rust-resistant
 // ! began to rust
-
-// there may be 0, 1 or more parts that have begun to rust
-
-// time
 
 
 #include <iostream>
@@ -85,7 +81,6 @@ private:
     }
 
     void workPoints(int m){
-        if(m_unitTime < 1) return;
 
         for (int i = 0; i < m_rows; i++){
             for (int j = 0; j < m_cols; j++){
@@ -95,10 +90,8 @@ private:
             }
         }
         hardenRust();
-
-        m--;
-        workPoints(m);
-
+        if(m_unitTime == 1) return;
+        workPoints(m_unitTime--);
 
     }
 
