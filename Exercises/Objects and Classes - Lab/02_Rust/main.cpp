@@ -28,90 +28,78 @@ private:
     int m_unitTime;
 
 
-    int getRustPointsCount() const{
-        int count{};
-
-        for (int i = 0; i < m_rows; ++i) {
-            for (int j = 0; j < m_cols; ++j) {
-                if(m_matrix[i][j] ==  '!'){
-                    count++;
+    // hardenRust -> scan matrix and make all 'x' to '!'
+    void hardenRust(){
+        for (int i = 0; i < m_rows; i++){
+            for (int j = 0; j < m_cols; j++){
+                if(m_matrix[i][j] ==  'x'){
+                    m_matrix[i][j] = '!';
                 }
             }
         }
-        return count;
+
     }
 
-    void toLeft(int limit, int x, int start){
-        if(start <= 0) return;
-        for(int i = start-1; i >= 0 && limit > 0; i--, limit--){
-            if(m_matrix[x][i] != '#')
-                m_matrix[x][i] = 'L';
+    // create side points of rust from given point; moves one unit
+    void makeTempRustFromPoint(int x, int y){ // filling X
+
+        // toLeft
+        if(y > 0){
+            if(m_matrix[x][y-1] != '#'){
+                if(m_matrix[x][y-1] != '!'){
+                    m_matrix[x][y-1] = 'x';
+                }
+            }
+
         }
-    }
+        // toRight
+        if(y < m_cols-1){
+            if(m_matrix[x][y+1] != '#'){
+                if(m_matrix[x][y+1] != '!'){
+                    m_matrix[x][y+1] = 'x';
+                }
+            }
 
-    void toRight(int x, int start, int limit){
-        if(start >= m_cols) return;
-        for(int i = start+1; i < m_cols && limit > 0; i++, limit--){
-            if(m_matrix[x][i] != '#')
-                m_matrix[x][i] = 'R';
         }
-    }
 
-    void toBottom(int y, int start, int limit){
-        if(start >= m_rows) return;
-        for(int i = start+1; i < m_rows && limit > 0; i++, limit--){
-            if(m_matrix[i][y] != '#')
-                m_matrix[i][y] = 'B';
+        // toBottom
+        if(x < m_rows-1){
+            if(m_matrix[x+1][y] != '#'){
+                if(m_matrix[x+1][y] != '!'){
+                    m_matrix[x+1][y] = 'x';
+                }
+            }
+
         }
-    }
 
-    void toTop(int y, int start, int limit){
-       if(start <= 0) return;
-       for(int i = start-1; i >= 0 && limit > 0; i--, limit--){
-           if(m_matrix[i][y] != '#')
-               m_matrix[i][y] = 'T';
-       }
-    }
-
-    void createRustOfPointByScale(int x, int y, int n){
-        int lim = n-1;
-
-        m_matrix[x][y] = '@';
-
-
-
-
-
-
-        toLeft(n, x, y);
-        toRight(x, y, n);
-        toBottom(y, x, n);
-        toTop(y,x,n);
-
-
-
-
-
-
-
-
-
-        // 00            90
-        //     4-5, 4-5
-        // 09            99
-
-
-
-
+        // toTop
+        if(x > 0){
+            if(m_matrix[x-1][y] != '#'){
+                if(m_matrix[x-1][y] != '!'){
+                    m_matrix[x-1][y] = 'x';
+                }
+            }
+        }
 
 
     }
 
-    void workPoints(){
-        for (int i = 0; i < m_rows; i++)
-            for (int j = 0; j < m_cols; j++)
-                if(m_matrix[i][j] ==  '!')
-                    createRustOfPointByScale(i, j, m_unitTime); // assign with 'x'
+    void workPoints(int m){
+        if(m_unitTime < 1) return;
+
+        for (int i = 0; i < m_rows; i++){
+            for (int j = 0; j < m_cols; j++){
+                if(m_matrix[i][j] ==  '!'){
+                    makeTempRustFromPoint(i, j); // assign with 'x'
+                }
+            }
+        }
+        hardenRust();
+
+        m--;
+        workPoints(m);
+
+
     }
 
 
@@ -126,17 +114,13 @@ public:
     }
 
     void getSchema(){
-        workPoints();
+        workPoints(m_unitTime);
 
     }
 
     void printResult(){
         for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_cols; ++j) {
-// TODO: swap 'x' with '!'
-//                if(m_matrix[i][j] == 'x')
-//                    m_matrix[i][j] = '!';
-
                 std::cout << m_matrix[i][j];
             }
             std::cout << std::endl;
