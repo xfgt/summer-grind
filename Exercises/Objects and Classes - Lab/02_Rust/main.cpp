@@ -41,23 +41,69 @@ private:
         return count;
     }
 
-    void makeRustCross(int x, int y){
-        m_matrix[x][y] = 'x';
-        if(y-1 >= 0)
-            if(m_matrix[x][y-1] != '#')
-                m_matrix[x][y-1] = 'x';
+    void toLeft(int limit, int x, int start){
+        if(start <= 0) return;
+        for(int i = start-1; i >= 0 && limit > 0; i--, limit--){
+            if(m_matrix[x][i] != '#')
+                m_matrix[x][i] = 'L';
+        }
+    }
 
-        if(y+1 <= m_rows-1)
-            if(m_matrix[x][y+1] != '#')
-                m_matrix[x][y+1] = 'x';
+    void toRight(int x, int start, int limit){
+        if(start >= m_cols) return;
+        for(int i = start+1; i < m_cols && limit > 0; i++, limit--){
+            if(m_matrix[x][i] != '#')
+                m_matrix[x][i] = 'R';
+        }
+    }
 
-        if(x-1 >= 0)
-            if(m_matrix[x-1][y] != '#')
-                m_matrix[x-1][y] = 'x';
+    void toBottom(int y, int start, int limit){
+        if(start >= m_rows) return;
+        for(int i = start+1; i < m_rows && limit > 0; i++, limit--){
+            if(m_matrix[i][y] != '#')
+                m_matrix[i][y] = 'B';
+        }
+    }
 
-        if(x+1 <= m_cols-1)
-            if(m_matrix[x+1][y] != '#')
-                m_matrix[x+1][y] = 'x';
+    void toTop(int y, int start, int limit){
+       if(start <= 0) return;
+       for(int i = start-1; i >= 0 && limit > 0; i--, limit--){
+           if(m_matrix[i][y] != '#')
+               m_matrix[i][y] = 'T';
+       }
+    }
+
+    void createRustOfPointByScale(int x, int y, int n){
+        int lim = n-1;
+
+        m_matrix[x][y] = '@';
+
+
+
+
+
+
+        toLeft(n, x, y);
+        toRight(x, y, n);
+        toBottom(y, x, n);
+        toTop(y,x,n);
+
+
+
+
+
+
+
+
+
+        // 00            90
+        //     4-5, 4-5
+        // 09            99
+
+
+
+
+
 
     }
 
@@ -65,20 +111,10 @@ private:
         for (int i = 0; i < m_rows; i++)
             for (int j = 0; j < m_cols; j++)
                 if(m_matrix[i][j] ==  '!')
-                    makeRustCross(i, j); // assign with 'x'
+                    createRustOfPointByScale(i, j, m_unitTime); // assign with 'x'
     }
 
-    void scanX(){
-        for (int i = 0; i < m_rows; i++){
-            for (int j = 0; j < m_cols; j++){
-                if(m_matrix[i][j] ==  'x'){
-                    makeRustCross(i, j); // assign with 'x'
 
-                }
-            }
-
-        }
-    }
 
 
 public:
@@ -91,11 +127,7 @@ public:
 
     void getSchema(){
         workPoints();
-        int stop = m_unitTime;
-        while(stop > 0){
-            scanX();
-            stop--;
-        }
+
     }
 
     void printResult(){
