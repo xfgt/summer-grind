@@ -62,31 +62,22 @@ private:
     }
 
     void workPoints(){
-        int stop = m_unitTime;
-        for (int i = 0; i < m_rows; i++) {
-            for (int j = 0; j < m_cols; j++) {
-                if(m_matrix[i][j] ==  '!'){
+        for (int i = 0; i < m_rows; i++)
+            for (int j = 0; j < m_cols; j++)
+                if(m_matrix[i][j] ==  '!')
                     makeRustCross(i, j); // assign with 'x'
-                }
-            }
-        }
-        while(stop > 0){
-            scanX(stop);
-            stop--;
-        }
-
     }
 
-    void scanX(int limit){
-        for (int i = 0; i < limit; i++) {
-            for (int j = 0; j < limit; j++) {
+    void scanX(){
+        for (int i = 0; i < m_rows; i++){
+            for (int j = 0; j < m_cols; j++){
                 if(m_matrix[i][j] ==  'x'){
-                    makeRustCross(i, j);
+                    makeRustCross(i, j); // assign with 'x'
+
                 }
             }
+
         }
-
-
     }
 
 
@@ -100,6 +91,11 @@ public:
 
     void getSchema(){
         workPoints();
+        int stop = m_unitTime;
+        while(stop > 0){
+            scanX();
+            stop--;
+        }
     }
 
     void printResult(){
