@@ -42,32 +42,27 @@ private:
     }
 
     void makeRustCross(int x, int y){
-        //TODO: while m_unitTime > 0 make rust on new points
-        if(y-1 >= 0) {
-            if(m_matrix[x][y-1] != '#'){
+        m_matrix[x][y] = 'x';
+        if(y-1 >= 0)
+            if(m_matrix[x][y-1] != '#')
                 m_matrix[x][y-1] = 'x';
-            }
-        }
-        if(y+1 <= m_rows-1){
-            if(m_matrix[x][y+1] != '#'){
-                m_matrix[x][y+1] = 'x';
-            }
-        }
 
-        if(x-1 >= 0){
-            if(m_matrix[x-1][y] != '#'){
+        if(y+1 <= m_rows-1)
+            if(m_matrix[x][y+1] != '#')
+                m_matrix[x][y+1] = 'x';
+
+        if(x-1 >= 0)
+            if(m_matrix[x-1][y] != '#')
                 m_matrix[x-1][y] = 'x';
-            }
-        }
-        if(x+1 <= m_cols-1){
-            if(m_matrix[x+1][y] != '#'){
+
+        if(x+1 <= m_cols-1)
+            if(m_matrix[x+1][y] != '#')
                 m_matrix[x+1][y] = 'x';
-            }
-        }
 
     }
 
     void workPoints(){
+        int stop = m_unitTime;
         for (int i = 0; i < m_rows; i++) {
             for (int j = 0; j < m_cols; j++) {
                 if(m_matrix[i][j] ==  '!'){
@@ -75,6 +70,22 @@ private:
                 }
             }
         }
+        while(stop > 0){
+            scanX(stop);
+            stop--;
+        }
+
+    }
+
+    void scanX(int limit){
+        for (int i = 0; i < limit; i++) {
+            for (int j = 0; j < limit; j++) {
+                if(m_matrix[i][j] ==  'x'){
+                    makeRustCross(i, j);
+                }
+            }
+        }
+
 
     }
 
@@ -92,7 +103,6 @@ public:
     }
 
     void printResult(){
-
         for (int i = 0; i < m_rows; ++i) {
             for (int j = 0; j < m_cols; ++j) {
 // TODO: swap 'x' with '!'
