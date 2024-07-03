@@ -5,164 +5,122 @@
 
 #include <iostream>
 #include <cstring>
+#include <vector>
+#include <algorithm>
 
 class GetWords{
 
 private:
-    char ch{};
-    char* text;
+    char m_letter;
+    char* m_text;
+    std::vector<char*> m_matches;
 
+//  NEW FUNCTIONS
 
-    int countWords(char* sample, char& x) const {
-        int cnt{};
-        while(*sample != '\0'){
-
-            while(*sample != ' ' && *sample != '\0'){
-                sample++;
-            }
-            cnt++;
-            sample++;
-        }
-        return cnt;
+//  remove ',' and '.'
+    void cleanText(){
+        for(int i = 0; i < std::strlen(m_text); i++)
+            if(m_text[i] == '.' || m_text[i] == ',')
+                m_text[i] = ' ';
     }
 
-    bool checkWord(char* word, int sz, char& x){
-        bool good = false;
-        if(x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z'){
-            for(int i = 0; i <= sz; i++){
-                if(word[i] >= 'a' && word[i] <= 'z' || word[i] >= 'A' && word[i] <= 'Z'){ // nothing other than a letter
-                    if(word[i] == x || word[i] == x - 32 || word[i] == x + 32){ // case sensitivity doesn't matter
-                        good = true;
-                        break;
-                    }
-                }
-            }
-        } else {
-            return false;
-        }
-        return good;
-
-    }
-
-    bool isDuplicate(char* word, char arrOfWords[][45], int m){
-        for(int i = 0; i < m; i++){
-            if(std::strcmp(arrOfWords[i], word) == 0) // works!
+//  check duplicate words
+    bool isDuplicate(char*& word){
+        for(const auto& current : m_matches){
+            if(strcmp(current, word) == 0)
                 return true;
         }
         return false;
     }
+    
+//  fill vector with matching words
+    void fillVector(){
+        for(int i = 0; i < std::strlen(m_text); i++){
+            char* word = new char[45];
+            memset(word, '\0', 45);
 
-    void assignWords(char* sample, char words[][45], int& sizex, char& x){
-        int i{};
-        int j{};
-        int m {};
-        while(sample[i] != '\0'){
-            int r (-1);
-            char temp[45]{};
+            bool fits = false;
             int g(-1);
-            bool isGood = false;
 
-            while(sample[j] != ' ' && sample[j] != '\0' && sample[j] != '.' && sample[j] != ',' && r < 45){
-                temp[++g] = sample[j];
-                j++;
-            }
-
-            if(checkWord(temp, g, x)){
-                if(!isDuplicate(temp, words, m)){
-                    isGood = true;
-                    int f{};
-                    while(r < 45 && temp[f] != '\0')
-                        words[m][++r] = temp[f++];
-                }
-
-            }
-            if(m <= sizex && isGood) m++;
-
-            i = ++j;
-            g=0;
-            isGood = false;
-        }
-        if(m != 0)
-            sortLexicographic(words, m);
-        else{
-            for(int i = 0; i < 3; i++)
-                words[0][i] = '-';
-        }
-
-    }
-
-
-    void sortLexicographic(char words[][45], int& m){
-        // perform bubble sort algorithm
-        char* temp = new char[45];
-        memset(temp, '\0', 45);
-        bool flag = 0;
-        for(int i = 1; i < m-1; i++){
-            flag = 0;
-
-            for(int j = 0 ; j < m-i; j++){
-
-                // default swap procedure
-                if(std::strcmp(words[j], words[j+1]) > 0){
-                    flag = 1;
-                    std::strcpy(temp, words[j]);
-                    std::strcpy(words[j], words[j+1]);
-                    std::strcpy(words[j+1], temp);
+            while(m_text[i] != ' '){
+                word[++g] = m_text[i++];
+                if(word[g] == m_letter || word[g] == m_letter - 32 || word[g] == m_letter+32) {
+                    fits = true;
                 }
             }
-            if(flag == 0)
-                break;
-        }
-        delete[] temp;
-
-
-    }
-
-    void printWords(char words[][45], int& x) const{
-        for(int i = 0; i < x; i++){
-            if(words[i][0] == '\0')
-                break;
-
-            for(int j = 0; j < 45; j++){
-                if(words[i][j] != ' ' && words[i][j] != '\0'){
-                    std::cout << words[i][j];
-                } else {
-                    break;
+            if(fits){
+                if(!(isDuplicate(word))){
+                    m_matches.push_back(word);
+                } else{
+                    delete[] word;
                 }
+            } else {
+                delete[] word;
             }
-            std::cout << ' ';
+
         }
-        std::cout << std::endl;
+
     }
 
 
 
 public:
     GetWords(char* txt =nullptr, char ltr ='\0'){
-        if(std::strlen(txt) > 0){
-            text = new char[std::strlen(txt)+1];
-            memcpy(text, txt, std::strlen(txt)+1);
-            text[std::strlen(txt)+1] = '\0';
-            ch = ltr;
+        if(std::strlen(txt) <= 0 || !(ltr >= 'a' && ltr <= 'z' || ltr >= 'A' && ltr <= 'Z')){
+            m_text = nullptr;
+            m_letter = '\0';
+            return;
         }
+        m_text = new char[std::strlen(txt)+1];
+        memcpy(m_text, txt, std::strlen(txt)+1);
+        m_letter = ltr;
 
-        int x = countWords(text, ch);
-        char words[x][45];
-        memset(words, '\0', x*45);
-        assignWords(text, words, x, ch);
-        printWords(words, x);
+        cleanText(); // remove ', and '.'
+
+        // pushback into vector words that match
+        // make check if the inserting word is a duplicate
+        fillVector();
+
+        // sort vector lexicographically
+        // print vector with original words (capital letters)
+
+        // TODO SORT LEXICOGRAPHICALLY
+
     }
 
+    ~GetWords(){
+        if(m_text != nullptr){
+            delete[] m_text;
+            m_text = nullptr;
+        }
+        if(!(m_matches.empty())){
+            for(const auto& x : m_matches){
+                delete x;
+            }
+            m_matches.clear();
+        }
+    }
+
+    void showResult() const{
+        if(m_matches.empty()){
+            std::cout << "---" << std::endl;
+            return;
+        }
+        for(const auto& x : m_matches)
+            std::cout << x << ' ';
+        std::cout << std::endl;
+    }
 
 };
 
 
 int main(){
 
-    char inputText[2000]{};
+    char inputText[500];
+    memset(inputText, '\0', 500);
     char letter{};
 
-    std::cin.get(inputText, 1999);
+    std::cin.get(inputText, 499);
     std::cin.clear();
 
     std::cin>>letter;
@@ -171,17 +129,12 @@ int main(){
     GetWords* solve = nullptr;
     while(letter != '.'){
         solve = new GetWords(inputText, letter);
-        delete[] solve;
+        solve->showResult();
+        delete solve;
 
         std::cin >> letter;
         std::cin.clear();
-
     }
-
-
-
-
-
 
 
 

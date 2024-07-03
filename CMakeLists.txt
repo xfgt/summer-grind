@@ -4,6 +4,5 @@ project(Solution-SoftuniCPP-OOP)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
-
-        "Exercises/Objects and Classes - Lab/03_Matching-Locations/main.cpp"
+        "Exercises/Objects and Classes - Lab/01_Letters/main.cpp"
 )
