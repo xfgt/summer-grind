@@ -1,7 +1,7 @@
 # summer-grind
 
 <img src="misc/blacksmith-dwarf.gif"/><br>
-After my first year in university, I decided to practice the knowledge that I've gained which is mainly in DSA, OOP and C++ containers.
+After my first year in university, I decided to practice the knowledge that I've gained which is mainly in DSA, OOP and STL containers.
 
 It is created for the sake of self-improvement, but also as a compensation for not uploading all the homeworks that I've been working on during that year.
 The problem is that I was constantly switching different IDEs in order to find optimal way for keeping my files organised and being relatively small size.<br>
