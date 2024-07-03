@@ -1,7 +1,7 @@
 //
 // Created by User on 029-29.6.2024 г..
 //
-// TODO: fix 40/100
+// IDENTICAL RESULTS: https://tools.knowledgewalls.com/online-lexicographic-ascending-or-descending-sort
 
 #include <iostream>
 #include <cstring>
@@ -44,6 +44,8 @@ private:
 
             while(m_text[i] != ' '){
                 word[++g] = m_text[i++];
+//                if(word[0] >= 'A' && word[0] <= 'Z')
+//                    fits = false;
                 if(word[g] == m_letter || word[g] == m_letter - 32 || word[g] == m_letter+32) {
                     fits = true;
                 }
@@ -63,6 +65,22 @@ private:
     }
 
 
+    void lexSort(){
+        char temp[45]{};
+
+        for(int i = 0; i < m_matches.size()-1; i++){
+            for(int j = 0; j < m_matches.size() - i - 1; j++){
+                if(std::strcmp(m_matches[j], m_matches[j+1]) > 0){
+                    std::strcpy(temp, m_matches[j]);
+                    std::strcpy(m_matches[j], m_matches[j+1]);
+                    std::strcpy(m_matches[j+1], temp);
+                }
+            }
+
+
+        }
+
+    }
 
 public:
     GetWords(char* txt =nullptr, char ltr ='\0'){
@@ -76,15 +94,8 @@ public:
         m_letter = ltr;
 
         cleanText(); // remove ', and '.'
-
-        // pushback into vector words that match
-        // make check if the inserting word is a duplicate
-        fillVector();
-
-        // sort vector lexicographically
-        // print vector with original words (capital letters)
-
-        // TODO SORT LEXICOGRAPHICALLY
+        fillVector(); // pushback into vector words that match
+        lexSort();
 
     }
 
@@ -101,6 +112,7 @@ public:
         }
     }
 
+//  print matched words
     void showResult() const{
         if(m_matches.empty()){
             std::cout << "---" << std::endl;
@@ -116,8 +128,8 @@ public:
 
 int main(){
 
-    char inputText[500];
-    memset(inputText, '\0', 500);
+    char inputText[500]{};
+
     char letter{};
 
     std::cin.get(inputText, 499);
