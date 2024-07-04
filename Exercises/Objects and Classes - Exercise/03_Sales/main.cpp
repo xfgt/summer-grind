@@ -3,10 +3,11 @@
 //
 #include <iostream>
 #include <vector>
-#include <algorithm> // pair
+#include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include <cmath>
+
+#include <cstring>
 
 struct Sale{
 
@@ -33,16 +34,51 @@ struct Sale{
 
     }
 
+    Sale(const Sale* obj){
+        m_town = obj->m_town;
+        m_product = obj->m_product;
+        m_price = obj->m_price;
+        m_quantity = obj->m_quantity;
+        m_weight = obj->m_weight;
+    }
+
+    void operator=(const Sale* obj) {
+        this->m_town = obj->m_town;
+        this->m_product = obj->m_product;
+        this->m_price = obj->m_price;
+        this->m_quantity = obj->m_quantity;
+        this->m_weight = obj->m_weight;
+    }
+
 
 
 
 
 };
 
+void sortVect(std::vector<Sale*>& x){
+    for(int i = 0; i < x.size()-1; i++){
+        if(x[i] == nullptr) continue;
+        std::string firstName = x[i]->m_town;
+        std::string secondName = x[i+1]->m_town;
 
+        if((std::strcmp(firstName.c_str(), secondName.c_str()) < 0)){
+            //swap object positions
+            Sale temp(x[i]);
+
+            delete x[i];
+            x[i] = nullptr;
+            x[i] = new Sale(x[i+1]);
+
+            delete x[i+1];
+            x[i+1] = nullptr;
+            x[i+1] = new Sale(temp);
+
+        }
+    }
+}
 
 void printResult(const std::vector<Sale*>& x){
-
     for(const auto& m : x){
         if(m != nullptr){
             std::cout << std::fixed << std::setprecision(2) <<  m->m_town << " -> " << m->m_weight << std::endl;
@@ -74,16 +110,15 @@ int main(){
         std::cin.clear();
     }
 
-
 //  find duplicate towns and sum their weights
 
     for(const auto& it : sales){
         if(it == nullptr) continue;
-        std::string searchingString = it->m_town;
+        std::string& searchingString = it->m_town;
 
         for(auto& x :sales){
             if(x == nullptr) continue;
-            std::string current = x->m_town;
+            std::string& current = x->m_town;
 
             if(current == searchingString){
                 if(it->m_weight == x->m_weight) continue;
@@ -100,17 +135,17 @@ int main(){
 
 //  sort alphabetically
 
+    std::sort(sales.begin(), sales.end());
+    sortVect(sales);
+    std::reverse(sales.begin(), sales.end());
 
-//  print result
+//  print results
     printResult(sales);
 
 
 
 
-
 //  Memory management
-
-// vector
     for(auto& it : sales){
         delete it;
         it = nullptr;
@@ -118,7 +153,6 @@ int main(){
     sp = nullptr;
     sales.clear();
 
-// pair
 
 
     return 0;
