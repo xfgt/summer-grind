@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
 
-        "Exercises/Objects and Classes - Exercise/03_Sales/main.cpp"
+        "Exercises/Objects and Classes - Exercise/04_TotalAverageOfStudents/main.cpp"
 
 )
