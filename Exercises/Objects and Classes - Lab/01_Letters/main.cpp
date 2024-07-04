@@ -22,6 +22,8 @@ private:
         for(int i = 0; i < std::strlen(m_text); i++)
             if(m_text[i] == '.' || m_text[i] == ',')
                 m_text[i] = ' ';
+
+
     }
 
 //  check duplicate words
