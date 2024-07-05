@@ -7,6 +7,7 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 class GetWords{
 
@@ -20,7 +21,7 @@ private:
 //  remove ',' and '.'
     void cleanText(){
         for(int i = 0; i < std::strlen(m_text); i++)
-            if(m_text[i] == '.' || m_text[i] == ',')
+            if(!(m_text[i] >= 'a' && m_text[i] <= 'z' || m_text[i] >= 'A' && m_text[i] <= 'Z'))
                 m_text[i] = ' ';
 
 
@@ -44,10 +45,8 @@ private:
             bool fits = false;
             int g(-1);
 
-            while(m_text[i] != ' '){
+            while(m_text[i] != ' ' && m_text[i] != '\0' && g < 45){ //!
                 word[++g] = m_text[i++];
-//                if(word[0] >= 'A' && word[0] <= 'Z')
-//                    fits = false;
                 if(word[g] == m_letter || word[g] == m_letter - 32 || word[g] == m_letter+32) {
                     fits = true;
                 }
@@ -59,6 +58,7 @@ private:
                     delete[] word;
                 }
             } else {
+
                 delete[] word;
             }
 
@@ -68,10 +68,13 @@ private:
 
 
     void lexSort(){
-        char temp[45]{};
+        char temp[45];
+        memset(temp, '\0', 45);
 
+        // classic binary search
         for(int i = 0; i < m_matches.size()-1; i++){
             for(int j = 0; j < m_matches.size() - i - 1; j++){
+
                 if(std::strcmp(m_matches[j], m_matches[j+1]) > 0){
                     std::strcpy(temp, m_matches[j]);
                     std::strcpy(m_matches[j], m_matches[j+1]);
@@ -86,11 +89,7 @@ private:
 
 public:
     GetWords(char* txt =nullptr, char ltr ='\0'){
-        if(std::strlen(txt) <= 0 || !(ltr >= 'a' && ltr <= 'z' || ltr >= 'A' && ltr <= 'Z')){
-            m_text = nullptr;
-            m_letter = '\0';
-            return;
-        }
+
         m_text = new char[std::strlen(txt)+1];
         memcpy(m_text, txt, std::strlen(txt)+1);
         m_letter = ltr;
@@ -107,8 +106,9 @@ public:
             m_text = nullptr;
         }
         if(!(m_matches.empty())){
-            for(const auto& x : m_matches){
+            for(auto& x : m_matches){
                 delete x;
+                x = nullptr;
             }
             m_matches.clear();
         }
@@ -130,24 +130,42 @@ public:
 
 int main(){
 
-    char inputText[500]{};
+    char inputText[500];
+    memset(inputText, '\0', 500);
 
+//  text check
     char letter{};
-
+    char test = std::cin.get();
+    while(!(test >= 'a' && test <= 'z' || test >= 'A' && test <= 'Z')){
+        std::cin.clear();
+        std::cin >> test;
+    }
+    std::cin.putback(test);
     std::cin.get(inputText, 499);
-    std::cin.clear();
 
-    std::cin>>letter;
-    std::cin.clear();
+//  ignore all new lines before the call for letter input
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+//  letter check
+    do{
+        std::cin.clear();
+        std::cin>>letter;
+    }while(!(letter >= 'a' && letter <= 'z' || letter >= 'A' && letter <= 'Z'));
+
 
     GetWords* solve = nullptr;
     while(letter != '.'){
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         solve = new GetWords(inputText, letter);
         solve->showResult();
         delete solve;
 
-        std::cin >> letter;
-        std::cin.clear();
+        do{
+            std::cin.clear();
+            std::cin>>letter;
+        }while(letter >= '0' && letter <= '9');
+
     }
 
 
