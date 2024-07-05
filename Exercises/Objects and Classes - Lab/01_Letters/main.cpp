@@ -1,7 +1,7 @@
 //
 // Created by User on 029-29.6.2024 г..
 //
-// IDENTICAL RESULTS: https://tools.knowledgewalls.com/online-lexicographic-ascending-or-descending-sort
+
 
 #include <iostream>
 #include <cstring>
