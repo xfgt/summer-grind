@@ -46,18 +46,10 @@ int main(){
         std::cin.clear();
         std::cin.ignore();
     }
-
-
-
     studentsVector.reserve(N);
-
-
 
     std::string s_name, s_surName;
     double avg{};
-
-
-
 
     Student* sp = nullptr;
 
@@ -81,10 +73,6 @@ int main(){
 
 
     }
-
-
-
-
 
     if(!(studentsVector.empty())){
         for(const auto& x : studentsVector)
