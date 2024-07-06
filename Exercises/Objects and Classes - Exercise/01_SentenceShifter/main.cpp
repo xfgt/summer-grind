@@ -6,66 +6,85 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <limits>
+#include <string>
 
 
 
-void swap(char*& c1, char*& c2){
-    char temp[30];
 
-    std::strcpy(temp, c1);
-    std::strcpy(c1, c2);
-    std::strcpy(c2, temp);
+//different algorithm
+void getShiftedSentence(std::vector<char*>& w, int& x){
+
+    for(int h = 0; h <= x; h++){
+        int dist = x;
+        for(int i = 0; dist < w.size(); i++, dist++){
+            char* temp = new char [std::strlen(w[i])+1];
+            memset(temp, '\0', std::strlen(w[i])+1);
+            std::strcpy(temp, w[i]);
 
 
-}
+            memset(w[i], '\0', std::strlen(w[dist])+1);
+            std::strcpy(w[i], w[dist]);
+            memset(w[dist], '\0', std::strlen(temp)+1);
+            std::strcpy(w[dist], temp);
 
-void shiftWords(std::vector<char*>& w, int& x){
-    for(int j = 0 ; j <= x; j++) // !!
-        for(int i = 0; i < w.size()-x; i++)
-            swap(w[i], w[i+2]);
+            delete[] temp;
+        }
+    }
+
 
 
 }
 int main(){
 
-    std::vector<char*> words;
     char text[100];
-    int shift{};
+    memset(text, '\0', 100);
 
+    char test = std::cin.get();
+    while(!(test >= 'a' && test <= 'z' || test >= 'A' && test <= 'Z')){
+        std::cin.clear();
+        std::cin >> test;
+    }
+    std::cin.putback(test);
     std::cin.get(text, 99);
-    std::cin.clear();
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    int shift{};
     std::cin >> shift;
-    std::cin.clear();
+    while(shift == 0)
+        std::cin >> shift;
 
-
+    std::vector<char*> words;
     char* word = nullptr;
     int i{};
-    while(text[i] >= 'a' && text[i] <= 'z' && i < 100 || text[i] >= 'A' && text[i] <= 'Z' && i < 100){
+
+    while(i < 100){
+        if(text[i] == '\0') break;
+
         int g(-1);
         word = new char[30];
-        while(text[i] != ' ' && text[i] != '\0' && text[i] != '\n' && g < 30){ //// big problem
+        memset(word, '\0', 30);
+
+        while(g < 30 && (text[i] != ' ' && text[i] != '\0'))
             word[++g] = text[i++];
-        }
-        word[g+1] = '\0';
         i++;
 
-        if(g >= 0)
-            words.push_back(word);
-
-
+        if(g >= 0)      words.push_back(word);
+        else            delete[] word;
     }
 
-    shiftWords(words, shift);
-
-//  print
-    for(const auto& x : words)
-        std::cout << x << std::endl;
+    if(shift >= 0 && shift < words.size()) getShiftedSentence(words, shift);
 
 
+    for(int i = 0; i < words.size(); i++){
+        if(i+1 == words.size())     std::cout << words[i];
+        else                        std::cout << words[i] << std::endl;
+    }
 
 
-//  memory management
 
+//  Memory management
     for(auto& it : words){
         delete it;
         it = nullptr;
