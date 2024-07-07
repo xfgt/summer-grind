@@ -9,13 +9,11 @@
 
 using SoftUni::ResourceType;
 
-
-
-
 namespace SoftUni{
     class Resource{
         friend std::istream& operator>>(std::istream&, Resource&);
         friend std::ostream& operator<<(std::ostream&, const Resource&);
+        friend bool operator<(const Resource&, const Resource&);
 
     private:
         int m_ID;
@@ -43,19 +41,33 @@ namespace SoftUni{
 
     std::istream& operator>>(std::istream& IN, Resource& obj){
         int tempID;
-        ResourceType tempRT;
+        char c;
+        enum ResourceType tempRT;
         std::string tempLink;
 
         IN >> tempID;
         obj.setID(tempID);
 
-        unsigned int trt = 0;
-        if(IN >> trt){
-            tempRT = static_cast<ResourceType>(trt);
-            obj.setRT(tempRT);
+        IN >> c;
+        switch (c) {
+            case 'P':
+                tempRT = ResourceType::PRESENTATION;
+                break;
+            case 'D':
+                tempRT = ResourceType::DEMO;
+                break;
+            case 'V':
+                tempRT = ResourceType::VIDEO;
+                break;
+            default:
+                break;
         }
 
-        IN >> tempLink;
+
+        obj.setRT(tempRT);
+
+        std::cin >> tempLink;
+        std::getline(std::cin, tempLink);
         obj.setLink(tempLink);
 
         return IN;
@@ -66,21 +78,11 @@ namespace SoftUni{
         return OUT;
     }
 
+    bool operator<(const Resource& left, const Resource& right){
+        return left.getId() < right.getId();
+    }
 
 }
-//TODO overload .inset method from std::set
-
-using SoftUni::Resource;
-using std::pair;
-using std::set;
-using std::iterator;
-typedef set<Resource>::iterator IT;
-
-template <>
-pair<IT, bool> set<Resource>::insert(Resource &&x) {
-
-}
-
 
 
 
