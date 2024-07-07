@@ -29,7 +29,7 @@ namespace SoftUni{
 
 //      getters
         int getId() const { return m_ID; }
-        ResourceType getType() const { return m_RT; }
+        enum ResourceType getType() const { return m_RT; }
         std::string getLink() const { return m_LINK; }
 
 //      setters
@@ -74,7 +74,7 @@ namespace SoftUni{
     }
 
     std::ostream& operator<<(std::ostream& OUT, const Resource& obj){
-        OUT << obj.getType() << " " << (unsigned)obj.getType() << obj.m_LINK;
+        OUT << obj.getId() << " " << obj.getType() << obj.m_LINK;
         return OUT;
     }
 
