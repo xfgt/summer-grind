@@ -9,18 +9,21 @@
 
 using SoftUni::ResourceType;
 
+
+
+
 namespace SoftUni{
     class Resource{
+        friend std::istream& operator>>(std::istream&, Resource&);
+        friend std::ostream& operator<<(std::ostream&, const Resource&);
+
+    private:
         int m_ID;
         ResourceType m_RT;
         std::string m_LINK;
 
+
     public:
-
-        friend std::istream& operator>>(std::istream&, Resource&);
-        friend std::ostream& operator<<(std::ostream&, const Resource&);
-
-
         Resource(int id =0, ResourceType rt =PRESENTATION, std::string link ="") :
         m_ID(id),
         m_RT(rt),
@@ -37,9 +40,6 @@ namespace SoftUni{
         void setLink(std::string lnk) { m_LINK = lnk; }
 
     };
-
-    //insert e za std::set
-
 
     std::istream& operator>>(std::istream& IN, Resource& obj){
         int tempID;
@@ -66,17 +66,22 @@ namespace SoftUni{
         return OUT;
     }
 
-    //TODO overload .inset from std::set
-//    template <typename T>
-//    std::set<T>::insert
-
-
-
-
-
-
 
 }
+//TODO overload .inset method from std::set
+
+using SoftUni::Resource;
+using std::pair;
+using std::set;
+using std::iterator;
+typedef set<Resource>::iterator IT;
+
+template <>
+pair<IT, bool> set<Resource>::insert(Resource &&x) {
+
+}
+
+
 
 
 #endif //!RESOURCE_H
