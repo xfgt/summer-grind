@@ -9,7 +9,7 @@
 ## Why?
 <p>
     The repository is created for the sake of self-improvement, but also as a compensation for not uploading all my homeworks that I've been working on during the year.
-    The problem is that I was constantly switching different IDEs in order to find a good field with which I would form the right habits as well as having my files well-organised and flexible.
+    The problem is that I was constantly switching different IDEs in order to find a good field in which I would form the right habits as well as having my files well-organised and flexible.
 
 * I might consider adding some old files here in the near future.
 </p>
