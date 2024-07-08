@@ -3,8 +3,7 @@
 <p>After my first year in university, I decided to practice the knowledge that I've gained, which was mainly in DSA, OOP and STL containers in C++.
 </p>
 
-# [ Notice! ]
-<h2>"The unofficial certification"</h2>
+# [ Notice! ] - "The unofficial certification"
 The main language that I am working with here is <b>C++</b> and the problems that I attempt to solve are from one software academy.<br>
 They have a lot of courses for which I cannot afford to go through, but thanks to my university I've advanced my knowledge for most of them already.<br>
 Now it's just a matter of time for me to **prove** that by solving all problems that they offer to their participants and non-participants like me in this case :D.<br>
