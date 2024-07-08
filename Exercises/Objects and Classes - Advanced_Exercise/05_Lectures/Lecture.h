@@ -13,10 +13,10 @@
 
 namespace SoftUni{
 
-
     class Lecture {
         std::set<Resource>::iterator itB;
         std::set<Resource>::iterator itE;
+
     public:
         std::set<Resource> myLectures;
 
@@ -31,7 +31,7 @@ namespace SoftUni{
         void reset(){
             itB = myLectures.begin();
             itE = myLectures.end();
-            --itE;
+            itE--;
         }
 
 //      41
