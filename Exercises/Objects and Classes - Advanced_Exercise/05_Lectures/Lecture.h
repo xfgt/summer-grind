@@ -9,6 +9,7 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <cstring>
 #include "ResourceType.h"
 
 static int f = 0;
@@ -41,6 +42,7 @@ namespace SoftUni{
 
         }
 
+
 //      41
         int operator[](ResourceType index){
             int x{};
@@ -55,25 +57,49 @@ namespace SoftUni{
     };
 
 //  insert object to set comparison
+
 bool operator<(const Resource& left, const Resource& right){
-    return left.getId() < right.getId();
+    return (std::strcmp(left.getLink().c_str(), right.getLink().c_str()) < 0 ||
+    left.getId() <= right.getId())
+    ;
+    //return left.getId() < right.getId();
 }
+
 
 //  27
 Lecture& operator<<(Lecture& lobj, const Resource& robj){
-    lobj.myLectures.insert(robj);
-    lobj.reset();
-    return lobj;
+//    if(lobj.myLectures.empty()){
+//        lobj.myLectures.insert(robj);
+//        lobj.reset();
+//        return lobj;
+//    }
+//    bool dup = false;
+//    //search duplicate
+//    for(auto& g : lobj.myLectures){
+//        if(g.getId() == robj.getId()){
+//            dup = true;
+//            break;
+//        }
+//        dup = false;
+//    }
+//    if(!dup){
+        lobj.myLectures.insert(robj);
+        lobj.reset();
+        return lobj;
+//    }
+//        return lobj;
+
 }
 
 //  38
 std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, Lecture& lobj){
+
     if(v.empty())
         v.push_back(lobj.myLectures.begin()->getType());
 
 
     bool dup = false;
-    for(auto w : lobj.myLectures){
+    for(auto& w : lobj.myLectures){
         for(auto& vit : v)
             if(w.getType() == vit)
                 dup = true;
@@ -82,9 +108,6 @@ std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, Lecture& lobj
         dup = false;
 
     }
-
-
-
 
         std::sort(v.begin(), v.end());
 
