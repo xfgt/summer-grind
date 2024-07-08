@@ -48,21 +48,23 @@ namespace SoftUni{
     };
 
 //  insert object to set comparison
-    bool operator<(const Resource& left, const Resource& right){
-        return left.getId() < right.getId();
-    }
+bool operator<(const Resource& left, const Resource& right){
+    return left.getId() < right.getId();
+}
 
 //  27
-    Lecture& operator<<(Lecture& lobj, const Resource& robj){
+Lecture& operator<<(Lecture& lobj, const Resource& robj){
     lobj.myLectures.insert(robj);
     lobj.reset();
 
+    //TODO skip of end iterator
     return lobj;
 }
 
 //  38
 std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, Lecture& lobj){
 
+    //TODO types need to be sorted
     for(auto& b : lobj.myLectures){
         if(v.empty()){
             v.push_back(b.getType());
