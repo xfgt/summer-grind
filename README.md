@@ -1,12 +1,21 @@
-# summer-grind
+# Forge of future
 
 <img src="misc/blacksmith-dwarf.gif"/><br>
-After my first year in university, I decided to practice the knowledge that I've gained which is mainly in DSA, OOP and STL containers.
+<style>
+p{width: 650px};
+</style>
+<p>After my first year in university, I decided to practice the knowledge that I've gained which was mainly in DSA,<br>
+OOP and STL containers on C++.</p>
 
-It is created for the sake of self-improvement, but also as a compensation for not uploading all the homeworks that I've been working on during that year.
-The problem is that I was constantly switching different IDEs in order to find optimal way for keeping my files organised and being relatively small size.<br>
-Of course, I can just upload everything that I've been doing, but it is pointless, because it's just a single commit, and there is no way to express the progress that has been going through these files.
+<p>
+The repository is created for the sake of self-improvement, but also as a compensation for not uploading all my
+homeworks that I've been working on during the year.
+The problem is that I was constantly switching different IDEs in order to find a good field which would form me the right habits as well as keeping my files well-organised and flexible.
+</p>
+
+<p>Of course, I can just upload everything that I've been doing, but it is pointless, because it's just a single commit, and there is no way to express the progress that has been going through these files.</p>
 
 
-I will try to stick to this repo by solving problems daily, then we'll see how it would turn out!
+<p>I will try to stick to this repo by solving problems daily and upload a picture of the results, then we'll see how it would turn out!</p>
+
 
