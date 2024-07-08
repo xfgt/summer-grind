@@ -10,6 +10,7 @@
 #include <vector>
 #include "ResourceType.h"
 
+static int f = 0;
 
 namespace SoftUni{
 
@@ -29,9 +30,14 @@ namespace SoftUni{
         std::set<Resource>::iterator end() { return itE; }
 
         void reset(){
-            itB = myLectures.begin();
-            itE = myLectures.end();
-            itE--;
+            if(myLectures.empty()){
+                itB = myLectures.begin();
+                itE = myLectures.end();
+                --itE;
+            } else {
+                itB = myLectures.begin();
+            }
+
         }
 
 //      41
@@ -56,8 +62,6 @@ bool operator<(const Resource& left, const Resource& right){
 Lecture& operator<<(Lecture& lobj, const Resource& robj){
     lobj.myLectures.insert(robj);
     lobj.reset();
-
-    //TODO skip of end iterator
     return lobj;
 }
 
