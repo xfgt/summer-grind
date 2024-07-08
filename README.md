@@ -1,9 +1,6 @@
 # Forge of future
 
 <img src="misc/blacksmith-dwarf.gif"/><br>
-<style>
-p{width: 650px};
-</style>
 
 <p>
     After my first year in university, I decided to practice the knowledge that I've gained, which was mainly in DSA, OOP and STL containers in C++.
