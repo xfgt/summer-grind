@@ -31,17 +31,18 @@ namespace SoftUni{
         void reset(){
             itB = myLectures.begin();
             itE = myLectures.end();
+            --itE;
         }
 
 //      41
         int operator[](ResourceType index){
+            int x{};
             for(auto& i : myLectures){
-
                 if(index == i.getType()){
-                    return i.getType();
+                    x++;
                 }
             }
-            return Lecture::begin()->getType();
+            return x;
         }
 
     };
@@ -60,8 +61,19 @@ namespace SoftUni{
 }
 
 //  38
-std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, const Lecture& lobj){
-    v.push_back(lobj.myLectures.end()->getType()); // begin?
+std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, Lecture& lobj){
+
+    for(auto& b : lobj.myLectures){
+        if(v.empty()){
+            v.push_back(b.getType());
+            continue;
+        }
+        for(auto c : v){
+            if(c == b.getType()) break;
+            else v.push_back(b.getType());
+        }
+    }
+
     return v;
 }
 
