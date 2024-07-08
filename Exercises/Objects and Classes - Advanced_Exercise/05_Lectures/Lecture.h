@@ -8,6 +8,7 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include <algorithm>
 #include "ResourceType.h"
 
 static int f = 0;
@@ -67,18 +68,25 @@ Lecture& operator<<(Lecture& lobj, const Resource& robj){
 
 //  38
 std::vector<ResourceType>& operator<<(std::vector<ResourceType>&v, Lecture& lobj){
+    if(v.empty())
+        v.push_back(lobj.myLectures.begin()->getType());
 
-    //TODO types need to be sorted
-    for(auto& b : lobj.myLectures){
-        if(v.empty()){
-            v.push_back(b.getType());
-            continue;
-        }
-        for(auto c : v){
-            if(c == b.getType()) break;
-            else v.push_back(b.getType());
-        }
+
+    bool dup = false;
+    for(auto w : lobj.myLectures){
+        for(auto& vit : v)
+            if(w.getType() == vit)
+                dup = true;
+        if(!dup)
+            v.push_back(w.getType());
+        dup = false;
+
     }
+
+
+
+
+        std::sort(v.begin(), v.end());
 
     return v;
 }
