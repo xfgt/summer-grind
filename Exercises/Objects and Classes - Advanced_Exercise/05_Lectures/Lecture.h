@@ -12,7 +12,6 @@
 #include <cstring>
 #include "ResourceType.h"
 
-static int f = 0;
 
 namespace SoftUni{
 
@@ -56,39 +55,58 @@ namespace SoftUni{
 
     };
 
-//  insert object to set comparison
 
 bool operator<(const Resource& left, const Resource& right){
-    return (std::strcmp(left.getLink().c_str(), right.getLink().c_str()) < 0 ||
-    left.getId() <= right.getId())
-    ;
-    //return left.getId() < right.getId();
+    return left.getId() <= right.getId();
 }
 
 
+bool operator==(const Resource& left, const Resource& right){
+    return left.getId() == right.getId();
+}
+
 //  27
 Lecture& operator<<(Lecture& lobj, const Resource& robj){
-//    if(lobj.myLectures.empty()){
-//        lobj.myLectures.insert(robj);
-//        lobj.reset();
-//        return lobj;
-//    }
-//    bool dup = false;
-//    //search duplicate
-//    for(auto& g : lobj.myLectures){
-//        if(g.getId() == robj.getId()){
-//            dup = true;
-//            break;
-//        }
-//        dup = false;
-//    }
-//    if(!dup){
+
+    if(lobj.myLectures.empty())
+    {
         lobj.myLectures.insert(robj);
         lobj.reset();
         return lobj;
-//    }
-//        return lobj;
+    }
 
+    Resource dupObj;
+    bool dup = false;
+
+    for(const auto& d : lobj.myLectures)
+    {
+        if(d.getId() == robj.getId())
+        {
+            dup = true;
+            dupObj = d;
+        }
+    }
+
+    if(!dup)
+    {
+        lobj.myLectures.insert(robj);
+        lobj.reset();
+
+    } else
+    {
+        for(auto it = lobj.myLectures.begin(); it != lobj.myLectures.end(); it++)
+        {
+            if(it->getId() == dupObj.getId())
+            {
+                lobj.myLectures.erase(it);
+                break;
+            }
+        }
+        lobj.myLectures.insert(robj);
+        lobj.reset();
+
+    }
+    return lobj;
 }
 
 //  38
