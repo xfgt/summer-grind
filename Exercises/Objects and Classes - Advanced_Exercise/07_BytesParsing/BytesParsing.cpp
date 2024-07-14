@@ -3,19 +3,6 @@
 //
 #include "BytesParsing.h"
 
-#include <cmath>
-
-long long convert(long long n){
-    long long dec = 0, i = 0, rem;
-
-    while (n!=0) {
-        rem = n % 10;
-        n /= 10;
-        dec += rem * std::pow(2, i);
-        ++i;
-    }
-    return dec;
-}
 
 extern ErrorCode parseData (const std::string& commands,
                             const char* rawDataBytes,
@@ -38,13 +25,13 @@ extern ErrorCode parseData (const std::string& commands,
     for(int i = 0; i < commands.size(); i++){
         int iterations{};
         switch (commands[i]){
-            case 's':
+            case 's':   // short -> 16 bits (2*8)   [base 16]
                 iterations = 2;
                 break;
-            case 'i':
+            case 'i':   // int -> 32 bits (4*8)
                 iterations = 4;
                 break;
-            case 'l':
+            case 'l':   // long -> 64 bits (8*8)
                 iterations = 8;
                 break;
             default:
@@ -54,7 +41,7 @@ extern ErrorCode parseData (const std::string& commands,
         if(iterations == 0) continue;
 
 
-
+        //from front to back ss, 2002 -> 200 (16) -> 512, 2(16) -> 2 [push front]
         long long number{};
         for(j = k; j < rawDataBytesCount; j++){
             for(int f = 0; f < iterations; f++, k++){
@@ -63,6 +50,7 @@ extern ErrorCode parseData (const std::string& commands,
             break;
         }
         outParsedNumbers.push_back(number);
+        outParsedNumbers.insert(outParsedNumbers.begin(), number); // "push front"
 
 
 
