@@ -6,6 +6,7 @@
 #include <ext/concurrence.h>
 
 enum Action{
+    NOTHING = -1,
     ALLOCATE = 0,
     DEALLOCATE,
     IDLE
@@ -16,7 +17,7 @@ extern ErrorCode executeCommand(const std::string& command, std::vector<int*>& m
     Action enumAct;
     std::string actionStr;
     int x{};
-    int limit = memory.capacity() - memory.size();
+
     std::stringstream ssInput(command);
     ssInput >> actionStr;
 
@@ -27,51 +28,72 @@ extern ErrorCode executeCommand(const std::string& command, std::vector<int*>& m
         enumAct = DEALLOCATE;
     else if (actionStr == "Idle")
         enumAct = IDLE;
+    else
+        enumAct = NOTHING;
+
 
 
     switch (enumAct){
-    case ALLOCATE:
+
+
+
+    case ALLOCATE:  // pulni
         ssInput >> x;
-        if (x <= 0) return MEMORY_LEAK;
-        if (x > memory.capacity() || x > memory.size()){
-            return MEMORY_LEAK;
-        }
-        if (x < memory.size()){
-            for (int i = 0; i < x; i++)
+
+
+        if (x < 1) break;
+
+
+        if(memory.size() - x >= 1 && memory.size() - x < memory.capacity()){
+            for(int i = 0; i <= x; i++){
                 memory.pop_back();
+            }
             return EXECUTE_SUCCESS;
-        } else{
+        } else {
             return MEMORY_LEAK;
         }
         break;
 
 
-    case DEALLOCATE:
-        ssInput >> x;
-        if (x <= 0) return DOUBLE_FREE;
 
-        if (x > memory.capacity()){
-            return INDEX_OUT_OF_BOUND;
-        } else if (memory.size() == memory.capacity()){
+
+
+
+
+
+
+    case DEALLOCATE: // prazni
+        ssInput >> x;
+        if(x < 1) break;
+        if(x > memory.capacity()) return INDEX_OUT_OF_BOUND;
+        if (memory.size() == memory.capacity()){
             return DOUBLE_FREE;
         }
-        else{
-            if (x <= limit){
-                for (int i = 0; i < x; i++)
-                    memory.push_back(nullptr);
-                return EXECUTE_SUCCESS;
+
+        if(memory.size() + x < memory.capacity()){
+            for(int i = 0; i <= x; i++){
+                memory.push_back(nullptr);
             }
-            else{
-                return DOUBLE_FREE;
-            }
+            return EXECUTE_SUCCESS;
+        } else{
+            return DOUBLE_FREE;
         }
-
-
-    case IDLE:
-        return EXECUTE_IDLE;
-
-    default:
         break;
+
+
+
+
+
+
+
+
+
+
+
+    case IDLE: return EXECUTE_IDLE;
+    case NOTHING: break;
+
+    default: break;
     }
 }
 
