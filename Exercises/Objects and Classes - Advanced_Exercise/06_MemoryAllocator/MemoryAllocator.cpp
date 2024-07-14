@@ -34,17 +34,14 @@ extern ErrorCode executeCommand(const std::string& command, std::vector<int*>& m
 
 
     switch (enumAct){
-
-
-
     case ALLOCATE:  // pulni
         ssInput >> x;
 
 
-        if (x < 1) break;
+        if (x <= 0) return MEMORY_LEAK;
 
 
-        if(memory.size() - x >= 1 && memory.size() - x < memory.capacity()){
+        if(memory.size() - x > 0 && memory.size() - x < memory.capacity()){
             for(int i = 0; i <= x; i++){
                 memory.pop_back();
             }
@@ -64,13 +61,13 @@ extern ErrorCode executeCommand(const std::string& command, std::vector<int*>& m
 
     case DEALLOCATE: // prazni
         ssInput >> x;
-        if(x < 1) break;
+        if(x <= 0) DOUBLE_FREE;
         if(x > memory.capacity()) return INDEX_OUT_OF_BOUND;
         if (memory.size() == memory.capacity()){
             return DOUBLE_FREE;
         }
 
-        if(memory.size() + x < memory.capacity()){
+        if(memory.size() + x <= memory.capacity()){
             for(int i = 0; i <= x; i++){
                 memory.push_back(nullptr);
             }
@@ -91,9 +88,11 @@ extern ErrorCode executeCommand(const std::string& command, std::vector<int*>& m
 
 
     case IDLE: return EXECUTE_IDLE;
-    case NOTHING: break;
+    case NOTHING: std::cout << std::endl; break;
 
     default: break;
+
+
     }
 }
 
@@ -129,7 +128,6 @@ extern void printResult(const ErrorCode errorCode, const std::string& command){
         break;
 
     default:
-        std::cout << std::endl;
         break;
     }
 }
