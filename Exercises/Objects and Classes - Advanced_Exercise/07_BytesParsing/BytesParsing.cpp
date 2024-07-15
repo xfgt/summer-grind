@@ -3,7 +3,8 @@
 //
 #include "BytesParsing.h"
 
-#include <pstl/execution_defs.h>
+#include <cmath>
+#include <string>
 
 
 void printVector(const std::vector<long long>& vec){
@@ -11,7 +12,26 @@ void printVector(const std::vector<long long>& vec){
         std::cout << it << " ";
 }
 
+int hexIntShort(const std::string& str){
+    int decimal{};
+    int result{};
+    char digit{};
+    for(int i = 0, j = str.size(); i < str.size(); i++, j--){
+        digit = str[i];
+        if(digit == '0'){
+            j--;
+            continue;
+        }
+        decimal = std::stoi(&digit);
+        result += decimal * pow(16, j);
 
+    }
+    return result;
+}
+
+int hexIntInt(const std::string& str){
+    //TODO
+}
 
 extern ErrorCode parseData (const std::string& commands,
                             const char* rawDataBytes,
@@ -50,21 +70,34 @@ extern ErrorCode parseData (const std::string& commands,
         if(iterations == 0) return PARSE_FAILURE;
 
 
-
-
         //convertion and "upload"
-        long long number{};
+        std::string number("");
         for(j = k; j < rawDataBytesCount; j++){
             for(int f = 0; f < iterations; f++, k++){
                 if(k > rawDataBytesCount) return PARSE_FAILURE;
-                number += rawDataBytes[k];
+                if(rawDataBytesCount >= '\000' && rawDataBytesCount <= '\011') // 0 - 9
+                    number += rawDataBytes[k]+'0';
             }
-            break;
-        }
-        outParsedNumbers.push_back(number);
+            switch (commands[i]){
+            case 's':   // short -> 16 bits (2*8)   [base 16]
+                outParsedNumbers.insert(outParsedNumbers.begin(), hexIntShort(number)); // "push_front"
+                break;
+            case 'i':   // int -> 32 bits (4*8)
+                outParsedNumbers.insert(outParsedNumbers.begin(), hexIntInt(number));
+                break;
+            case 'l':   // long -> 64 bits (8*8)
 
-        //from front to back ss, 2002 -> 200 (16) -> 512, 2(16) -> 2 [push front]
-        //outParsedNumbers.insert(outParsedNumbers.begin(), number); // "push front"
+                break;
+
+            default:
+                break;
+            }
+
+            break; // loop break
+        }
+
+
+
     }
 
     return PARSE_SUCCESS;
@@ -72,16 +105,15 @@ extern ErrorCode parseData (const std::string& commands,
 
 extern void printResult (const ErrorCode errorCode, const std::vector<long long>& parsedNumbers) {
     switch(errorCode){
-    case PARSE_EMPTY: // don't print vector at all
-            std::cout << "No input provided" << std::endl;
+    case PARSE_EMPTY:
+            std::cout << "No input provided";
             break;
         case PARSE_SUCCESS:
             printVector(parsedNumbers);
-        std::cout << std::endl;
             break;
     case PARSE_FAILURE:
         printVector(parsedNumbers);
-        std::cout << "Warning, buffer underflow detected" << std::endl;
+        std::cout << "Warning, buffer underflow detected";
             break;
         default:
             break;
