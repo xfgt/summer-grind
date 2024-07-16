@@ -9,7 +9,7 @@ They have a lot of courses for which I cannot afford to go through, but thanks t
 Now it's just a matter of time for me to **prove** that by solving all problems that they offer to their participants and non-participants like me in this case :D.<br>
 With that said, I hope this repo will serve as the most of the programmer's certifications.
 
-## Purpose
+## Reason
 <p>
     The repository is created for the sake of self-improvement and as a compensation for not uploading all my homeworks that I've been working on during that first year.
     The problem is that I was constantly switching different IDEs in order to find a good field in which I would form the right habits as well as having my files well-organised and flexible.
