@@ -12,16 +12,16 @@ void printVector(const std::vector<long long>& vec){
         std::cout << it << " ";
 }
 
-int hexIntShort(const std::string& str){
+
+int hexCalc(const std::string& str){
+
     int decimal{};
     int result{};
     char digit{};
-    for(int i = 0, j = str.size(); i < str.size(); i++, j--){
+    for(int i = 0, j = 0; i < str.size(); i++, j += 2){
+
         digit = str[i];
-        if(digit == '0'){
-            j--;
-            continue;
-        }
+        if(digit == '0') continue;
         decimal = std::stoi(&digit);
         result += decimal * pow(16, j);
 
@@ -29,9 +29,7 @@ int hexIntShort(const std::string& str){
     return result;
 }
 
-int hexIntInt(const std::string& str){
-    //TODO
-}
+
 
 extern ErrorCode parseData (const std::string& commands,
                             const char* rawDataBytes,
@@ -40,31 +38,27 @@ extern ErrorCode parseData (const std::string& commands,
 
 {
 
-
     if(rawDataBytesCount == 0 || commands.empty())
         return PARSE_EMPTY;
 
-// rawData -> char - 30;
 
     int j{};
     int k{};
     for(int i = 0; i < commands.size(); i++){
         int iterations{};
         switch (commands[i]){
-            case 's':   // short -> 16 bits (2*8)   [base 16]
-                iterations = 2;
-                break;
-            case 'i':   // int -> 32 bits (4*8)
-                iterations = 4;
-                break;
-            case 'l':   // long -> 64 bits (8*8)
-                iterations = 8;
-                break;
+        case 's':   // short -> 16 bits (2*8)   [base 16]
+            iterations = 2;
+            break;
+        case 'i':   // int -> 32 bits (4*8)
+            iterations = 4;
+            break;
+        case 'l':   // long -> 64 bits (8*8)
+            iterations = 8;
+            break;
 
-            default:
-                break;  // TODO: Return error if bad sequence occurs;
-                        // TODO: Keep in mind that the command buffer may contain commands, which you have no data for in your data buffer.
-                        // TODO: When you reach such case -> simply ignore the rest of the commands from the command buffer.
+        default:
+            break;
         }
 
         if(iterations == 0) return PARSE_FAILURE;
@@ -74,26 +68,15 @@ extern ErrorCode parseData (const std::string& commands,
         std::string number("");
         for(j = k; j < rawDataBytesCount; j++){
             for(int f = 0; f < iterations; f++, k++){
-                if(k > rawDataBytesCount) return PARSE_FAILURE;
-                if(rawDataBytesCount >= '\000' && rawDataBytesCount <= '\011') // 0 - 9
+                if(k >= rawDataBytesCount) return PARSE_FAILURE;
+                if(rawDataBytes[k]+'0' >= '0' && rawDataBytes[k]+'0' <= '9')
                     number += rawDataBytes[k]+'0';
             }
-            switch (commands[i]){
-            case 's':   // short -> 16 bits (2*8)   [base 16]
-                outParsedNumbers.insert(outParsedNumbers.begin(), hexIntShort(number)); // "push_front"
-                break;
-            case 'i':   // int -> 32 bits (4*8)
-                outParsedNumbers.insert(outParsedNumbers.begin(), hexIntInt(number));
-                break;
-            case 'l':   // long -> 64 bits (8*8)
 
-                break;
+            outParsedNumbers.push_back(hexCalc(number));
 
-            default:
-                break;
-            }
 
-            break; // loop break
+            break;
         }
 
 
