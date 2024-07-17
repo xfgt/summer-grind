@@ -4,8 +4,9 @@ project(Solution-SoftuniCPP-OOP)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
-        "Exercises/Objects and Classes - Advanced_Exercise/07_BytesParsing/main.cpp"
-        "Exercises/Objects and Classes - Advanced_Exercise/07_BytesParsing/BytesParsing.h"
-        "Exercises/Objects and Classes - Advanced_Exercise/07_BytesParsing/BytesParsing.cpp"
-
+        "Exercises/Code Organization and Templates - Lab/03_Parser/ParserMain.cpp"
+        "Exercises/Code Organization and Templates - Lab/03_Parser/Parser.h"
+        "Exercises/Code Organization and Templates - Lab/03_Parser/PrintUtils.h"
+        "Exercises/Code Organization and Templates - Lab/03_Parser/Parser.cpp"
+        "Exercises/Code Organization and Templates - Lab/03_Parser/PrintUtils.cpp"
 )
