@@ -10,6 +10,11 @@
 template <typename R>
 void printVector(const std::vector<R>& v);
 
-
+template <typename R>
+void printVector(const std::vector<R>& v){
+    for(const auto& it : v){
+        std::cout << it << ' ';
+    }
+}
 
 #endif //PRINTUTILS_H
