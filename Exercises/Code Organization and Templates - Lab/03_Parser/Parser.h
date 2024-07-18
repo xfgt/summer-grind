@@ -5,27 +5,71 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include <iostream>
-#include <vector>
+#include <typeinfo>
+
+extern class Song testSongObj;
+
+
 template <typename X>
 class Parser{
-private:
-    X m_stopLine;
+
+    X m_stopLine; // int, string, obj
 
 public:
     Parser(std::istream& IN, std::string stopLine){
         IN >> stopLine;
-        //TODO: parse std::string to X?
-        setStopLine(std::move(stopLine));
+
+
+
+        std::string msg("");
+        const std::type_info& xType = typeid(m_stopLine);
+
+        if(xType.name() == typeid(int).name()){
+            msg = "int!";
+        } else if(xType.name() == typeid(std::string).name()){
+            msg = "std::string!";
+        } else if(xType.name() == typeid(testSongObj).name()){
+            msg = "USER-DEFINED OBJECT, IT WORKS, BRO!";
+        } else{
+            return;
+        }
+
+        std::cout << msg << std::endl;
+
+
     }
+
+
     bool readNext(X& tmp){
-        //TODO: operator!= overload for us-def objects, ints, strings
-        return tmp != getStopLine();
+
+        // i -> ?
+        // w -> ?
+
+        // obj -> ?!
+
+
+
+        return false;
+    }
+
+    void setStopLine(X tmp){
+        // i -> ?
+        // w -> ?
+
+        // obj -> ?!
+
     }
 
 
-    void setStopLine(X& tmp) { m_stopLine = std::move(tmp); }
-    X getStopLine() const { return m_stopLine; }
+
+    X getStopLine() const{
+        return m_stopLine;
+    }
 };
+
+
+
+
 
 
 #endif //PARSER_H
