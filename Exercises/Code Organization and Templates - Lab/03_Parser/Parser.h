@@ -1,73 +1,41 @@
 //
-// Created by twister on 7/17/24.
+// Created by twister on 7/18/24.
 //
 
 #ifndef PARSER_H
 #define PARSER_H
+
 #include <iostream>
-#include <typeinfo>
+#include <utility>
 
-extern class Song testSongObj;
-
-
-template <typename X>
+template<typename T>
 class Parser{
 
-    X m_stopLine; // int, string, obj
+private:
+    std::istream& m_IN;
+    std::string m_stopLine;
 
 public:
-    Parser(std::istream& IN, std::string stopLine){
-        IN >> stopLine;
-
-
-
-        std::string msg("");
-        const std::type_info& xType = typeid(m_stopLine);
-
-        if(xType.name() == typeid(int).name()){
-            msg = "int!";
-        } else if(xType.name() == typeid(std::string).name()){
-            msg = "std::string!";
-        } else if(xType.name() == typeid(testSongObj).name()){
-            msg = "USER-DEFINED OBJECT, IT WORKS, BRO!";
-        } else{
-            return;
-        }
-
-        std::cout << msg << std::endl;
-
-
-    }
-
-
-    bool readNext(X& tmp){
-
-        // i -> ?
-        // w -> ?
-
-        // obj -> ?!
-
-
-
-        return false;
-    }
-
-    void setStopLine(X tmp){
-        // i -> ?
-        // w -> ?
-
-        // obj -> ?!
-
-    }
-
-
-
-    X getStopLine() const{
-        return m_stopLine;
-    }
+    Parser(std::istream&, std::string );
+    bool readNext(T);
+    template <class Y, class E>
+    friend bool operator!=(const Parser<Y>&, const E&);
 };
 
 
+template <class T>
+Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)) {}
+
+template <class X>
+bool Parser<X>::readNext(X sample){
+    m_IN >> sample;
+    return sample != m_stopLine;
+}
+
+template <class R, class F>
+bool operator != (const Parser<R>& left, const F& right){
+    return left.m_stopLine != right.str();
+}
 
 
 
