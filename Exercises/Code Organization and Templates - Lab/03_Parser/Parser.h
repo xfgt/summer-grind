@@ -14,6 +14,9 @@ class Parser{
 private:
     std::istream& m_IN;
     std::string m_stopLine;
+
+
+
 public:
     Parser(std::istream&, std::string );
     bool readNext(T&);
@@ -21,9 +24,7 @@ public:
 };
 
 template <class T>
-Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){
-
-}
+Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){}
 
 
 template <class T>
@@ -33,16 +34,31 @@ bool Parser<T>::readNext(T& n) {
 
     std::string wholeString{};
     std::string currentSong{};
-
     std::ostringstream oss;
     oss << n;
+
     wholeString = oss.str();
 
     std::istringstream sSong(wholeString);
     sSong >> currentSong;
 
-    m_IN >> n;
-        return currentSong != m_stopLine;
+    if( currentSong != m_stopLine ){
+
+        m_IN >> n;
+        return true;
+    } else {
+
+        return false;
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

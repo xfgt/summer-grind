@@ -13,8 +13,10 @@ void printVector(const std::vector<T>&);
 
 template<typename T>
 void printVector(const std::vector<T>& v){
-    for(const auto& it : v)
-        std::cout << it << ' ';
+    for(auto it = v.begin(); it != v.end()-1; it++){
+        std::cout << *it << ' ';
+    }
+
 }
 
 #endif //PRINTUTILS_H
