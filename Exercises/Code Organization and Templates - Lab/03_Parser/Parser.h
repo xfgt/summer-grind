@@ -4,9 +4,11 @@
 
 #ifndef PARSER_H
 #define PARSER_H
-
 #include <iostream>
-#include <utility>
+#include <sstream>
+
+
+
 
 template<typename T>
 class Parser{
@@ -14,29 +16,36 @@ class Parser{
 private:
     std::istream& m_IN;
     std::string m_stopLine;
+    T cinObj;
 
 public:
     Parser(std::istream&, std::string );
     bool readNext(T);
-    template <class Y, class E>
-    friend bool operator!=(const Parser<Y>&, const E&);
+    friend bool operator !=(const Parser<T>&, const Parser<T>&);
+
 };
 
 
+
+template<typename T>
+bool operator!= (const Parser<T>& left, const Parser<T>& right){
+    return left.cinObj != right.cinObj;
+}
+
+
 template <class T>
-Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)) {}
+Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){ m_IN >> cinObj; }
+
 
 template <class X>
-bool Parser<X>::readNext(X sample){
-    m_IN >> sample;
-    return sample != m_stopLine;
-}
+bool Parser<X>::readNext(X n){
+    m_IN >> n;
 
-template <class R, class F>
-bool operator != (const Parser<R>& left, const F& right){
-    return left.m_stopLine != right.str();
-}
+    // compare object to cinObj and m_stopLine
 
+    return false;
+
+}
 
 
 
