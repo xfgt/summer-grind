@@ -8,45 +8,43 @@
 #include <sstream>
 
 
-
-
 template<typename T>
 class Parser{
 
 private:
     std::istream& m_IN;
     std::string m_stopLine;
-    T cinObj;
-
 public:
     Parser(std::istream&, std::string );
-    bool readNext(T);
-    friend bool operator !=(const Parser<T>&, const Parser<T>&);
+    bool readNext(T&);
 
 };
 
+template <class T>
+Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){
 
-
-template<typename T>
-bool operator!= (const Parser<T>& left, const Parser<T>& right){
-    return left.cinObj != right.cinObj;
 }
 
 
 template <class T>
-Parser<T>::Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){ m_IN >> cinObj; }
+bool Parser<T>::readNext(T& n) {
 
 
-template <class X>
-bool Parser<X>::readNext(X n){
+
+    std::string wholeString{};
+    std::string currentSong{};
+
+    std::ostringstream oss;
+    oss << n;
+    wholeString = oss.str();
+
+    std::istringstream sSong(wholeString);
+    sSong >> currentSong;
+
     m_IN >> n;
+        return currentSong != m_stopLine;
 
-    // compare object to cinObj and m_stopLine
-
-    return false;
 
 }
-
-
 
 #endif //PARSER_H
