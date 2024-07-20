@@ -4,12 +4,11 @@
 
 #ifndef JOIN_H
 #define JOIN_H
-// returns a std::string
+
 #include <iostream>
 #include <sstream>
-#include <variant>
 #include <vector>
-#include <pstl/execution_defs.h>
+
 
 template<typename T>
 std::string join(const std::vector<T>& v, const std::string& theNewSep){
