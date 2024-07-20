@@ -7,7 +7,10 @@
 // returns a std::string
 #include <iostream>
 #include <sstream>
+#include <variant>
 #include <vector>
+#include <pstl/execution_defs.h>
+
 template<typename T>
 std::string join(const std::vector<T>& v, const std::string& theNewSep){
     std::string result{};
@@ -16,23 +19,14 @@ std::string join(const std::vector<T>& v, const std::string& theNewSep){
 
     for(auto it = v.begin(); it != v.end(); ++it){
         T type = *it;
-        os << type;
 
-        std::istringstream s(os.str()); // result += os.str();
-        s  >> result;
-        os << theNewSep;
+        os << type;
+        if(it < v.end()-1)
+            os << theNewSep;
 
     }
 
-
-
-
-
-
-
-
-
-    return result;
+    return os.str();
 }
 
 #endif //JOIN_H
