@@ -1,20 +1,38 @@
 //
-// Created by twister on 7/18/24.
+// Created by twister on 7/21/24.
 //
 
 #ifndef PRINTUTILS_H
 #define PRINTUTILS_H
 
-#include <iostream>
-#include <vector>
+// TODO: Прочети ме (принт)
+// Трябват ти като аргументи итератори
+// самата функция е шаблонна, приемащата:
+// "Set", дефинирано с typedef като
+// std::set< int, Reverse<int, LessThan<int>> >
 
-template <typename T>
-void printVector(const std::vector<T>&);
+template<class T>
+void printContainer(/* std::set::iterator, std::set::iterator*/){}
 
-template<typename T>
-void printVector(const std::vector<T>& v){
-    for(const auto& it : v)
-        std::cout << it << ' ';
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif //PRINTUTILS_H
