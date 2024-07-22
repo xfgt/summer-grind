@@ -5,6 +5,13 @@
 #ifndef COMPARATORS_H
 #define COMPARATORS_H
 
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <sstream>
+
+
+
 // TODO: Прочети ме (компаратори)
 // възползвай се от >> И  << операторите,
 // както и от std::stringstream,
@@ -12,33 +19,43 @@
 
 
 
+/*
+    bool operator()(const Point& lhs, const Point& rhs) const {
+        return (comparison);
+    }
+*/
+
 
 
 
 template<typename T>
-class LessThan {
+struct LessThan {
+    bool operator()(const T& a, const T& b){
+        // string and strcmp
+        std::string x ,y{};
+        std::stringstream ssA;
 
-private:
+        ssA << a;
+        x = ssA.str();
+        ssA << b;
+        y = ssA.str();
+
+        // notworking
 
 
+        return (std::strcmp(x.c_str(), y.c_str()) < 0);
 
-public:
-    LessThan(){}
-
+    }
 };
 
 
 
 
 template <typename T, class LT = LessThan<T>>
-class Reverse{
+struct Reverse{
 
-private:
+    // !(expression form LT)
 
-
-
-public:
-    Reverse(){}
 
 };
 
