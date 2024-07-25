@@ -31,17 +31,18 @@
 template<typename T>
 struct LessThan {
     bool operator()(const T& a, const T& b){
-        // string and strcmp
-        std::string x ,y{};
-        std::stringstream ssA;
 
-        ssA << a;
-        x = ssA.str();
-        ssA << b;
-        y = ssA.str();
+        std::stringstream ss;
+        std::string x, y{};
 
-        // notworking
+        ss << a;
+        x = ss.str();
 
+        ss.str("");
+        ss.clear();
+
+        ss << b;
+        y = ss.str();
 
         return (std::strcmp(x.c_str(), y.c_str()) < 0);
 
