@@ -12,18 +12,6 @@
 
 
 
-// TODO: Прочети ме (компаратори)
-// възползвай се от >> И  << операторите,
-// както и от std::stringstream,
-// и предефинирането на bool operator< за std::strcmp(str1.c_str(), str2.c_str()) < 0
-
-
-
-/*
-    bool operator()(const Point& lhs, const Point& rhs) const {
-        return (comparison);
-    }
-*/
 
 
 
@@ -49,12 +37,15 @@ struct LessThan {
     }
 };
 
-
+// < 0
+// x > y
 
 
 template <typename T, class LT = LessThan<T>>
 struct Reverse{
-
+    bool operator()(const T& left, const LT& right) const {
+        return left > right;
+    }
     // !(expression form LT)
 
 

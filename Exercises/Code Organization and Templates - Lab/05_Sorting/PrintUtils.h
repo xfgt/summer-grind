@@ -5,20 +5,17 @@
 #ifndef PRINTUTILS_H
 #define PRINTUTILS_H
 
-// TODO: Прочети ме (принт)
-// Трябват ти като аргументи итератори
-// самата функция е шаблонна, приемащата:
-// "Set", дефинирано с typedef като
-// std::set< int, Reverse<int, LessThan<int>> >
+#include <iostream>
+#include <iterator>
 
-template<class T>
-void printContainer(/* std::set::iterator, std::set::iterator*/){}
-
-
-
-
-
-
+//T<X, [L<T,R<T>>] >
+template <typename C, typename X>
+void printContainer(const X& beg, const X& end){
+    for(typename C::const_iterator it = beg; it != end; ++it){
+        std::cout << *it << std::endl;
+    }
+}
+//    for(typename C::const_iterator it=data.begin();it!= data.end();++it){
 
 
 
