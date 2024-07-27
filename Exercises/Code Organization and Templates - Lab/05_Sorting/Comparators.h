@@ -12,11 +12,7 @@
 
 
 
-
-
-
-
-template<typename T>
+template<typename T> // functor (old lambda)
 struct LessThan {
     bool operator()(const T& a, const T& b){
 
@@ -37,18 +33,13 @@ struct LessThan {
     }
 };
 
-// < 0
-// x > y
 
-
-template <typename T, class LT = LessThan<T>>
+template <typename T, class LT>
 struct Reverse{
-    bool operator()(const T& left, const LT& right) const {
-        return left > right;
+    bool operator()(const T& left, const T& right){
+        LT lt;
+        return !lt(left, right);
     }
-    // !(expression form LT)
-
-
 };
 
 

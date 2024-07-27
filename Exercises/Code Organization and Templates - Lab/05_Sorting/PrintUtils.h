@@ -12,7 +12,7 @@
 template<typename T>
 void printContainer(const typename T::iterator& begin, const typename T::iterator& end){
     for(auto it = begin; it != end; ++it){
-        std::cout << it << ' ';
+        std::cout << *it << ' ';
     }
 }
 
