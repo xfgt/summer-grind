@@ -15,34 +15,24 @@ private:
     std::istream& m_IN;
     std::string m_stopLine;
 
-
-
 public:
-    Parser(std::istream&, std::string& );
-    bool readNext(T&);
+    Parser(std::istream& IN, std::string stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){}
+
+    bool readNext(T& element) {
+
+        std::string line;
+
+        if (std::getline(m_IN, line) && line != m_stopLine) {
+            std::istringstream is(line);
+            is >> element;
+            return true;
+        }
+
+        return false;
+
+    }
+
 
 };
-
-template <class T>
-Parser<T>::Parser(std::istream& IN, std::string& stopWord) : m_IN(IN), m_stopLine(std::move(stopWord)){}
-
-
-template <class T>
-bool Parser<T>::readNext(T& n) {
-
-
-    m_IN >> n;
-
-    std::string currentSong{};
-    std::ostringstream oss;
-    oss << n;
-
-    std::istringstream sSong(oss.str());
-    sSong >> currentSong;
-
-    return currentSong != m_stopLine;
-
-
-}
 
 #endif //PARSER_H
