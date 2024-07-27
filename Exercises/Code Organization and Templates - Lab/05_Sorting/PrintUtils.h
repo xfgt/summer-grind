@@ -8,14 +8,14 @@
 #include <iostream>
 #include <iterator>
 
-//T<X, [L<T,R<T>>] >
-template <typename C, typename X>
-void printContainer(const X& beg, const X& end){
-    for(typename C::const_iterator it = beg; it != end; ++it){
-        std::cout << *it << std::endl;
+
+template<typename T>
+void printContainer(const typename T::iterator& begin, const typename T::iterator& end){
+    for(auto it = begin; it != end; ++it){
+        std::cout << it << ' ';
     }
 }
-//    for(typename C::const_iterator it=data.begin();it!= data.end();++it){
+
 
 
 
