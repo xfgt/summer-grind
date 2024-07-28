@@ -8,9 +8,9 @@
 #include <iostream>
 
 
-bool echoOn;
+inline bool echoOn{};
 
-void echo(std::string msg){
+inline void echo(const std::string& msg){
     if(echoOn == true){
         std::cout << msg << std::endl;
     }
