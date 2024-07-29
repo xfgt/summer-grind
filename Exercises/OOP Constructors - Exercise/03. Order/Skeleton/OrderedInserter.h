@@ -7,23 +7,39 @@
 
 
 #include "Company.h"
-
 #include <vector>
+
 
 struct OrderedInserter{
 
-    std::vector<const Company*> m_companies;
+    const Company* current;
+    std::vector<const Company*>::iterator it;
+    std::vector<const Company*>& m_inputVector;
 
-    explicit OrderedInserter(std::vector<const Company*>& xv) : m_companies(xv) {}
+    explicit OrderedInserter(std::vector<const Company*>& xv) :
+    m_inputVector(xv),
+    current(nullptr) {}
 
-    operator Company*()(Company* x) const {
-        //?
+    void insert(const Company* x){
+        if(current == nullptr){
+            m_inputVector.push_back(x);
+            it = m_inputVector.begin();
+        }
+        else m_inputVector.insert(it++, x);
+
+
+        current = x;
+
     }
 
-    void insert(Company* sample){
-
+    bool operator<(const Company* sample) const {
+        return sample->getId() < current->getId();
     }
+
+
 };
+
+
 
 
 #endif //ORDEREDINSERTER_H
