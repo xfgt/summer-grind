@@ -14,41 +14,64 @@
 
 struct OrderedInserter{
 
-    const Company* current;
+    const Company* m_last;
     std::vector<const Company*>& m_inputVector;
-    std::vector<const Company*>::iterator it;
+    std::vector<const Company*>::iterator m_last_iterator;
 
 
     explicit OrderedInserter(std::vector<const Company*>& xv) :
     m_inputVector(xv),
-    current(nullptr),
-    it(nullptr){}
+    m_last(nullptr),
+    m_last_iterator(nullptr){}
 
     void insert(const Company* x){
 
-        if(current == nullptr){
+        if(m_last == nullptr){
             m_inputVector.push_back(x);
-            it = m_inputVector.begin();
-            current = x;
+            m_last_iterator = m_inputVector.begin();
+            m_last = x;
             return;
         }
 
-        if(x->getId() < current->getId()){
-            m_inputVector.insert(m_inputVector.begin(), x);
-        } else{
-            if(it-1 < m_inputVector.begin()){
-                m_inputVector.push_back(x);
-            } else { // mid insert
-
-                m_inputVector.insert(current position iterator + 1, x);
 
 
 
+        if(x->getId() < m_last->getId()){
+
+            auto pos = m_inputVector.begin();
+            for(const auto& j : m_inputVector){
+                if(x->getId() < j->getId()){
+                    m_inputVector.insert(pos, x);
+                    m_last_iterator = pos;
+                    break;
+                }
+                ++pos;
             }
 
+        } else {
+            auto h = m_inputVector.begin();
+            bool successful = false;
+
+            for(const auto& r : m_inputVector){
+                if(r->getId() > x->getId()){
+                    m_inputVector.insert(h, x);
+                    m_last_iterator = h;
+                    successful = true;
+                    break;
+                }
+                ++h;
+            }
+
+            if(successful == false){
+                m_inputVector.push_back(x);
+                m_last_iterator = m_inputVector.end()-1;
+            }
+
+
+
         }
-        it = m_inputVector.end()-1; /// !
-        current = x;
+        
+        m_last = x;
     }
 
 
