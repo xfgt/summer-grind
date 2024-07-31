@@ -9,12 +9,11 @@
 #include "Company.h"
 #include "ProfitCalculator.h"
 #include <map>
+#include <sstream>
 
 
 struct getProfitReport{
     friend std::ostream& operator << (std::ostream&, const getProfitReport&);
-
-
 
 
     std::map<std::string, int> m_results;
@@ -23,34 +22,38 @@ struct getProfitReport{
     const Company* m_finish;
     typedef std::map<int, ProfitCalculator> theMap;
     theMap& m_data;
+    std::ostringstream m_cOut;
 
     explicit getProfitReport(const Company* start, const Company* finish, theMap& data) :
         m_start(start),
         m_finish(finish),
         m_data(data) {
 
-        const Company* end = m_finish+1;
 
-        for(const auto& it : m_data){
-            auto x = m_start; // no ref!!
-            while (x != end){
-                if(it.first == x->getId()){
-                    int result = it.second.calculateProfit(*x);
-                    m_results[x->getName()] = result;
+        // follow exact order!
+
+        for(auto comp = m_start; comp != m_finish+1; comp++){
+
+            for(const auto& it : m_data){
+                if(it.first == comp->getId()) {
+                    m_cOut << comp->getName() << " = " << it.second.calculateProfit(*comp) << std::endl;
                     break;
                 }
-                ++x;
             }
+
+
         }
+
+
+
     }// !Constructor
 
 };
 
 inline std::ostream& operator << (std::ostream& OUT, const getProfitReport& obj ) {
-    for(const auto& it : obj.m_results){
-        OUT << it.first << " = " << it.second << std::endl;
-    }
+    OUT << obj.m_cOut.str();
     return OUT;
+
 }
 
 
