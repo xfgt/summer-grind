@@ -10,13 +10,18 @@
 #include "ProfitCalculator.h"
 #include <map>
 
+
 struct getProfitReport{
-    typedef const std::map<int, ProfitCalculator> theMap;
+
+    std::map<std::string, int> m_results;
+
+
 
     const Company* m_start;
     const Company* m_finish;
-
+    typedef std::map<int, ProfitCalculator> theMap;
     theMap& m_data;
+
 
     explicit getProfitReport(const Company* start, const Company* finish, theMap& data) :
         m_start(start),
@@ -33,11 +38,24 @@ struct getProfitReport{
 
         // iterate by memory from start to finish (m_)
 
-        auto skip = sizeof(m_start);
         const Company* end = m_finish+1;
-        for(auto& x = m_start; x != end; ++x){
-            std::cout << *x << std::endl;
+
+
+        for(const auto& it : m_data){
+            for(auto& x = m_start; x != end; ++x){
+            //      std::cout << *x << std::endl;
+                if(it.first == x->getId()){
+                    int result = it.second.calculateProfit(*x);
+                    m_results[x->getName()] = result;
+                    break;
+                }
+            }
+
         }
+
+
+
+
 
     }
 
@@ -49,8 +67,11 @@ struct getProfitReport{
 };
 
 std::ostream& operator << (std::ostream& OUT, const getProfitReport& obj ){
-
-    // TODO
+    //obj.m_results
+    for(const auto& it : obj.m_results){
+        OUT << &it << std::endl;
+    }
+    return OUT;
 }
 
 
