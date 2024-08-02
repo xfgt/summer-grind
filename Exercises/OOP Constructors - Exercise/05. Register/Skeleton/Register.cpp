@@ -8,12 +8,17 @@ Register::Register(size_t numCompanies){
     companiesArray = new Company[numAdded];
 }
 
+void Register::add(const Company& c){
 
-Register::~Register(){
-    delete[] companiesArray;
-    companiesArray = nullptr;
+    for(size_t i = 0; i < numAdded; i++){
+        if(companiesArray[i].getName().empty() || companiesArray[i].getId() == 0){
+            companiesArray[i] = c;
+            return;
+        }
+
+    }
+
 }
-
 
 Company Register::get(int companyId) const{
     for(size_t i = 0; i < numAdded; i++){
@@ -23,15 +28,12 @@ Company Register::get(int companyId) const{
     }
 }
 
-void Register::add(const Company& c){
 
-    for(size_t i = 0; i < numAdded; i++){
-        if(companiesArray[i].getName().empty() &&
-            companiesArray[i].getId() == NULL){
-            companiesArray[i] = c;
-            return;
-        }
-
-    }
-
+Register::~Register(){
+    delete[] companiesArray;
 }
+
+
+
+
+
