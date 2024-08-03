@@ -25,7 +25,6 @@ int main(){
         start = std::stoi(bOne.getDigits());
         end = std::stoi(bTwo.getDigits());
 
-        if(start < 1 || end > 100) return 1;
 
         for(int i = start; i < end;  i++){
             if(i % 45 == 0){
@@ -34,14 +33,12 @@ int main(){
         }
     }
     catch (...){
-        start = std::stoi(a.substr(a.size()-3));
+        start = std::stoi(a.substr(a.size()-2));
         end = std::stoi(b.substr(b.size()-3));
 
-        if(start < 1 || end > 100) return 1;
 
         for(int i = start; i < end;  i++){
             if(i % 45 == 0){
-
                 std::cout << bOne.getDigits().replace(bOne.getDigits().size()-2, 3, std::to_string(i)) << std::endl;
             }
         }
