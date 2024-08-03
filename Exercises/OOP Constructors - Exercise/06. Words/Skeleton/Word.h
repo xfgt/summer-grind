@@ -13,7 +13,7 @@
 struct Word{
     std::string m_wrd;
     int m_count{};
-    static std::map<std::string, int> m_xm;
+    static std::map<std::string, int> m_xm; //!!!
 
     explicit Word(std::string& x)
         :m_wrd(x){
@@ -37,8 +37,14 @@ struct Word{
         return false;
     }
 
-    std::string getWord() const { return m_wrd; }
-    int getCount() const { return m_xm[m_wrd]; }
+    std::string getWord() const{
+        return m_wrd;
+    }
+    int getCount() const{ // !!!
+        int temp = m_xm[m_wrd];
+        m_xm.erase(m_wrd);
+        return temp;
+    }
 
 
     bool operator<(const Word& sample) const {
