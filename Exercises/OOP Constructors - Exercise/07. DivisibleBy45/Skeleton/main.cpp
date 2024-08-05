@@ -1,67 +1,66 @@
-//
-// Created by twister on 8/3/24.
-//
-
-
 #include <iostream>
+#include <sstream>
+
 #include "BigInt.h"
 
+int main() {
 
-
-int main(){
-
-
-    std::string a;
-    std::string b;
+    std::string a, b;
     std::cin >> a >> b;
 
-    BigInt bOne(a);
-    BigInt bTwo(b);
+    BigInt start{ a };
+    BigInt finish{ b };
+    std::ostringstream oss;
+    
+    bool noMatch = true;
 
-    int start, end{};
+    BigInt firstDivisibleBy_45;
+    std::string strFirstDivisibleBy_45;
+    std::string currBigIntStr = start.getDigits();
+    BigInt currBigInt = start;
 
-    try {
 
-        std::stoi(bOne.getDigits()); // check
-        std::stoi(bTwo.getDigits()); // check
 
-        start = std::stoi(bOne.getDigits());
-        end = std::stoi(bTwo.getDigits());
+    while (noMatch && currBigInt < finish) {
 
-        if(start > 101 || end > 101)
-            throw std::out_of_range("");
+        char lastDigit = currBigIntStr[currBigIntStr.size() - 1];
+        bool IsDivisibleBy_5 = (lastDigit == '0' || lastDigit == '5');
+        int sumOfDigits = 0;
 
-        if(end < start){
-            throw std::runtime_error("");
+        for (int i = 0; i < currBigIntStr.size(); i++) {
+            sumOfDigits += currBigIntStr[i] - 48;
         }
 
-        for(int i = start; i < end; i++){
-            if(i % 45 == 0){
-                std::cout << i << std::endl;
-            }
+        bool IsDivisibleBy_9 = !(sumOfDigits % 9);
+        if (IsDivisibleBy_5 && IsDivisibleBy_9) {
+            oss << currBigIntStr << std::endl;
+
+            strFirstDivisibleBy_45 = currBigIntStr;
+            firstDivisibleBy_45 = currBigIntStr;
+            noMatch = false;
+            continue;
         }
 
-    } catch (std::out_of_range&) {
-        start = std::stoi(a.substr(a.size()-2));
-        end = std::stoi(b.substr(b.size()-2));
-
-        if(end < start){
-            if(end == 0)
-                end = 100;
-            else
-                throw std::runtime_error("");
-        }
-
-        for(int i = start; i < end; i++){
-            if(i % 45 == 0){
-                std::cout << bOne.getDigits().replace(bOne.getDigits().size()-2, 3, std::to_string(i)) << std::endl;
-            }
-        }
-
+        currBigInt = currBigIntStr;
+        BigInt bigInt_1{ 1 };
+        currBigInt += bigInt_1;
+        currBigIntStr = currBigInt.getDigits();
     }
 
 
+    BigInt divisibleBy_45 = strFirstDivisibleBy_45;
+    BigInt bigInt_45{ 45 };
 
+
+    while (divisibleBy_45 < finish) {
+        divisibleBy_45 += bigInt_45;
+        if (divisibleBy_45 < finish) {
+            std::string divisibleBy_45_Str = divisibleBy_45.getDigits();
+            oss << divisibleBy_45_Str << std::endl;
+        }
+    }
+
+
+    std::cout << oss.str();
     return 0;
-
 }
