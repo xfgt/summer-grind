@@ -11,27 +11,38 @@
 
 template <typename T, typename Generator>
 struct Sequence{
-
-    std::vector<T> m_xv;
-    typedef typename std::vector<T>::iterator m_it;
-
-    int m_last;
     Generator m_gen;
+    std::vector<int> m_xv;
 
-    Sequence() : m_last(0) { }
+    std::vector<int>::iterator m_begin;
+    std::vector<int>::iterator m_end;
 
-    m_it begin() { return m_xv.begin(); }
-    m_it end() { return m_xv.end(); }
+    Sequence(){
+        m_xv.reserve(2);
+        m_begin = m_xv.begin();
+        m_end = m_xv.end();
+    }
 
+
+    auto begin() { return m_begin; }
+    auto end() { return m_end; }
+
+
+    void reset(){
+        if(m_begin == m_end){
+            m_end = m_xv.end();
+        } else{
+            m_end = m_xv.end()-1;
+        }
+    }
 
     void generateNext(int& n){
+
         for(int i = 0; i < n; i++){
-            m_last = m_gen();
-            m_xv.push_back(m_last);
+            m_xv.push_back(m_gen());
         }
 
-        //reset iterators to continue for range loop
-
+        reset();
     }
 
 };
