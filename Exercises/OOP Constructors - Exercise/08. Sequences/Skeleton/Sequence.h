@@ -24,15 +24,16 @@ struct Sequence{
 
 
         if(!(m_xv.empty())){
-            std::cout << m_ss.str();
+            for(auto it = m_begin+2; it != m_xv.end(); ++it)
+                std::cout << *it << ' ';
+
             m_xv.clear();
+
         }
 
 
         for(int i = 0; i <= n; i++){ // = (!!!)
-            int x = m_gen();
-            m_ss << "(" << x << ") ";
-            m_xv.push_back(x);
+            m_xv.push_back(m_gen());
         }
 
         m_begin = m_xv.begin()-1; // !!!
