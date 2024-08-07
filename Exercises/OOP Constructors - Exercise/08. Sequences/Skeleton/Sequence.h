@@ -33,9 +33,8 @@ struct Sequence{
         }
 
 
-        if(m_begin != m_xv.end()){
+        if(m_begin != m_xv.end())
             m_begin = m_xv.begin() + 1;
-        }
 
         if(*m_begin != 0)
             m_begin = m_xv.begin()-1;
