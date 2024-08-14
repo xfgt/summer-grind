@@ -23,24 +23,25 @@ struct Sequence{
 
     void generateNext(const int& n){
 
-        auto h = m_begin;
-        auto r = m_xv.end();
+        auto h = m_xv.begin();
+        auto r = m_xv.end(); // !
 
         if(!m_xv.empty()){
             for(auto it = ++h; it != r; ++it){
                 std::cout << *it << ' ';
             }
             m_xv.clear();
-            m_xv.shrink_to_fit();
-            m_xv.assign(1, 0);
+            m_xv.assign(1, 0); // for-range auto increment for next
         }
 
-        for(int i = 0; i <= n; i++)
-            m_xv.push_back(m_gen());
+        if(n != 0)
+            for(int i = 0; i <= n; i++)
+                m_xv.push_back(m_gen());
+        // no shrink to fit!
 
 
         m_begin = m_xv.begin();
-        m_end = m_xv.end()-1;
+        m_end = m_xv.end();
 
 
 
