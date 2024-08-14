@@ -19,7 +19,7 @@ struct Sequence{
 
 
     auto begin() { return m_xv.begin(); }  // for-range auto increment
-    auto end()  { return m_xv.end(); }     // actual value
+    auto end()  { return m_xv.end()-1; }     // actual value
 
 
     void generateNext(const int& n){
@@ -33,8 +33,6 @@ struct Sequence{
             for(auto it = ++h; it!= s; ++it){
                 std::cout << *it << ' ';
             }
-
-
         }
 
         m_xv.assign(1, 0); // for-range auto increment for next
