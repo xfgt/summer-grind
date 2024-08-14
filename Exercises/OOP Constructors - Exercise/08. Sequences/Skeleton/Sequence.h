@@ -13,18 +13,21 @@ template <typename T, typename Generator>
 struct Sequence{
     Generator m_gen;
     std::vector<T> m_xv;
-    typename std::vector<T>::iterator m_begin;
-    typename std::vector<T>::iterator m_end;
+
     bool hitZero = false;
 
 
-    auto begin() { return m_begin; }  // for-range auto increment
+    auto begin() { return m_xv.begin(); }  // for-range auto increment
     auto end()  { return m_xv.end()-1; }     // actual value
 
+    Sequence(){
+        m_xv.reserve(15); // key
+    }
 
     void generateNext(const int& n){
 
         if(hitZero) return;
+
 
         auto h = m_xv.begin()+1;
         auto s = m_xv.end();
@@ -39,15 +42,22 @@ struct Sequence{
         m_xv.assign(1, 0); // for-range auto increment for next
 
         if(n != 0){
-
             for(int i = 0; i <= n; i++){
                 m_xv.push_back(m_gen());
-                m_begin = m_xv.begin();
             }
         }
         // no shrink to fit!
-        else
+        else{
             hitZero = true;
+        }
+
+
+
+
+
+
+
+
 
 
 
