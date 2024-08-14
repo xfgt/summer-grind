@@ -18,11 +18,12 @@ struct Sequence{
     bool hitZero = false;
 
 
-    auto begin() { return m_xv.begin(); }  // for-range auto increment
+    auto begin() { return m_begin; }  // for-range auto increment
     auto end()  { return m_xv.end()-1; }     // actual value
 
 
     void generateNext(const int& n){
+
         if(hitZero) return;
 
         auto h = m_xv.begin()+1;
@@ -37,9 +38,13 @@ struct Sequence{
 
         m_xv.assign(1, 0); // for-range auto increment for next
 
-        if(n != 0)
-            for(int i = 0; i <= n; i++)
+        if(n != 0){
+
+            for(int i = 0; i <= n; i++){
                 m_xv.push_back(m_gen());
+                m_begin = m_xv.begin();
+            }
+        }
         // no shrink to fit!
         else
             hitZero = true;
