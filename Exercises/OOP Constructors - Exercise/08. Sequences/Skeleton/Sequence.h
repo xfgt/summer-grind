@@ -15,34 +15,36 @@ struct Sequence{
     std::vector<T> m_xv;
     typename std::vector<T>::iterator m_begin;
     typename std::vector<T>::iterator m_end;
+    bool hitZero = false;
 
 
-    auto begin() { return m_begin; }  // for-range auto increment
-    auto end()  { return m_end; }     // actual value
+    auto begin() { return m_xv.begin(); }  // for-range auto increment
+    auto end()  { return m_xv.end(); }     // actual value
 
 
     void generateNext(const int& n){
+        if(hitZero) return;
 
-        auto h = m_xv.begin();
-        auto r = m_xv.end(); // !
+        auto h = m_xv.begin()+1;
+        auto s = m_xv.end();
+
 
         if(!m_xv.empty()){
-            for(auto it = ++h; it != r; ++it){
+            for(auto it = ++h; it!= s; ++it){
                 std::cout << *it << ' ';
             }
-            m_xv.clear();
-            m_xv.assign(1, 0); // for-range auto increment for next
+
+
         }
+
+        m_xv.assign(1, 0); // for-range auto increment for next
 
         if(n != 0)
             for(int i = 0; i <= n; i++)
                 m_xv.push_back(m_gen());
         // no shrink to fit!
-
-
-        m_begin = m_xv.begin();
-        m_end = m_xv.end();
-
+        else
+            hitZero = true;
 
 
 
