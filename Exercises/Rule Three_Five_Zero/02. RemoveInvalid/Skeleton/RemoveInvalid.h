@@ -6,18 +6,46 @@
 #define REMOVEINVALID_H
 
 
-inline void removeInvalid(std::list<Company*>& xv){
-    for(auto& it : xv){
-        if(it->getId() < 0){
-            delete it;
-            // move all pointers one-by-one by position
-            auto& pos = it;
+inline void removeInvalid(std::list<Company*>& xl){
+    auto next = xl.begin();
 
+    for(auto& it : xl){
+        ++next;
+        if(it == nullptr){
+            xl.remove(it);
+            break;
+        }
+
+        if(it->getId() < 0){
+            auto x = std::next(next, 0);
+            *it = **x;
+
+            delete *x;
+            *x = nullptr;
+
+            while(++next != xl.end()){
+                if((*next)->getId() >= 0){
+
+                        *x++ = new Company(**next);
+
+
+                    delete *next;
+                    *next = nullptr;
+
+                } else {
+                    delete *next;
+                    *next = nullptr;
+                }
+            }
 
 
         }
-    }
-}
 
+    }
+
+
+
+
+}
 
 #endif //REMOVEINVALID_H
