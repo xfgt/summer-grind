@@ -4,46 +4,23 @@
 
 #ifndef REMOVEINVALID_H
 #define REMOVEINVALID_H
+#include <random>
 
+inline void removeInvalid(std::list<Company*>& companies_list){
 
-inline void removeInvalid(std::list<Company*>& xl){
-    auto next = xl.begin();
-
-    for(auto& it : xl){
-        ++next;
-        if(it == nullptr){
-            xl.remove(it);
-            break;
-        }
-
+    for(auto& it : companies_list){
         if(it->getId() < 0){
-            auto x = std::next(next, 0);
-            *it = **x;
-
-            delete *x;
-            *x = nullptr;
-
-            while(++next != xl.end()){
-                if((*next)->getId() >= 0){
-
-                        *x++ = new Company(**next);
-
-
-                    delete *next;
-                    *next = nullptr;
-
-                } else {
-                    delete *next;
-                    *next = nullptr;
-                }
-            }
-
-
+            delete it;
+            it = nullptr;
         }
-
     }
 
-
+    for(auto& it : companies_list){
+        if(it == nullptr){
+            companies_list.remove(it);
+            break;
+        }
+    }
 
 
 }
