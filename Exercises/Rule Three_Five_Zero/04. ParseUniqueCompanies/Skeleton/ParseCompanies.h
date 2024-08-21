@@ -6,26 +6,55 @@
 #define PARSECOMPANIES_H
 
 
-
-
 inline Company* parseUniqueCompanies
-(const std::string& input , int& N, std::string(*chosenFunction)(const Company& obj)) {
+(const std::string& input , int& N, std::string(*filterFunction)(const Company& obj)) {
 
     N = 0;
-    auto** list = new Company*[10];
-
     int id;
     std::string name;
-    std::stringstream ss(input);
+    std::istringstream ss(input);
+    std::vector<Company*> v;
 
-    //  fill
+//  get size
     while(ss >> id >> name){
-        list[N++] = new Company(id, name);
-
+        N++;
     }
 
 
-    return list[0];
+    Company** cpms = new Company*[N];
+
+
+    ss.clear(); //!!!
+    ss.seekg(0);
+
+    std::string search{};
+    std::string current{};
+
+
+//  search & filter
+   for(size_t i = 0; i < N; i++){
+       current = search;
+
+       ss >> id >> name;
+
+       auto* x = new Company(id, name);
+       search = filterFunction(*x);
+
+       if(search != current){
+           cpms[i] = x;
+       } else{
+           --N;
+           i--;
+           delete x;
+       }
+
+
+   }
+
+
+
+
+    return cpms[0];
 }
 
 
