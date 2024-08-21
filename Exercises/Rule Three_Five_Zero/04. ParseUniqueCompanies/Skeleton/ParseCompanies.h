@@ -1,56 +1,49 @@
-//
-// Created by twister on 8/20/24.
-//
+#ifndef PARSE_COMPANIES_H
+#define PARSE_COMPANIES_H
 
-#ifndef PARSECOMPANIES_H
-#define PARSECOMPANIES_H
+#include <string>
+#include <vector>
+#include <sstream>
+#include <set>
 
+#include "Company.h"
 
-inline Company* parseUniqueCompanies
-(const std::string& input , int& N, std::string(*filterFunction)(const Company& obj)) {
+Company* parseUniqueCompanies(std::string companiesString, int& numParsedCompanies, std::string(&getUniqueIdentifier)(const Company&)) {
+	std::istringstream companiesIn(companiesString);
 
-    N = 0;
-    int id;
-    std::string name;
-    std::istringstream ss(input);
+	numParsedCompanies = 0;
 
-//  get size
-    while(ss >> id >> name){
-        N++;
-    }
+	std::set<std::string> parsedUnique;
+	std::vector<Company> companies;
 
-    ss.clear(); //!!!
-    ss.seekg(0);
+	std::string companyLine;
+	while (std::getline(companiesIn, companyLine)) {
+		std::istringstream companyLineIn(companyLine);
 
-    std::string search{};
-    std::string current{};
-    Company* cpms = new Company[N];
+		int id; std::string name;
+		companyLineIn >> id >> name;
 
-//  search & filter
-   for(int i = 0; i < N; i++){
-       current = search;
-
-       ss >> id >> name;
-
-       auto* x = new Company(id, name);
-       search = filterFunction(*x);
-
-       if(search != current && x->getId() > 0){
-           cpms[i] = *x;
-       } else{
-           --N;
-           i--;
-           delete x;
-       }
+		Company company(id, name);
+		std::string uniqueIdentifier = getUniqueIdentifier(company);
 
 
-   }
+		if (parsedUnique.find(uniqueIdentifier) == parsedUnique.end()) {
+			companies.push_back(company);
+			parsedUnique.insert(uniqueIdentifier);
+		}
+	}
 
 
+	numParsedCompanies = companies.size();
 
 
-    return cpms;
+	Company* companiesPtr = new Company[companies.size()];
+
+	for (int i = 0; i < companies.size(); i++) {
+		companiesPtr[i] = companies[i];
+	}
+
+	return companiesPtr;
 }
 
-
-#endif //PARSECOMPANIES_H
+#endif // !PARSE_COMPANIES_H
