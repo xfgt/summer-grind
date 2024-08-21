@@ -4,7 +4,6 @@ project(Solution-SoftuniCPP-OOP)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
-        "Exercises/Rule Three_Five_Zero/04. ParseUniqueCompanies/Skeleton/ParseUniqueCompaniesMain.cpp"
-
+        "Exercises/Rule Three_Five_Zero/06. ArrayOfPointers/Skeleton/ArrayOfPointersMain.cpp"
 
 )
