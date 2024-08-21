@@ -13,26 +13,21 @@ inline Company* parseUniqueCompanies
     int id;
     std::string name;
     std::istringstream ss(input);
-    std::vector<Company*> v;
 
 //  get size
     while(ss >> id >> name){
         N++;
     }
 
-
-    Company** cpms = new Company*[N];
-
-
     ss.clear(); //!!!
     ss.seekg(0);
 
     std::string search{};
     std::string current{};
-
+    Company* cpms = new Company[N];
 
 //  search & filter
-   for(size_t i = 0; i < N; i++){
+   for(int i = 0; i < N; i++){
        current = search;
 
        ss >> id >> name;
@@ -41,7 +36,7 @@ inline Company* parseUniqueCompanies
        search = filterFunction(*x);
 
        if(search != current){
-           cpms[i] = x;
+           cpms[i] = *x;
        } else{
            --N;
            i--;
@@ -54,7 +49,7 @@ inline Company* parseUniqueCompanies
 
 
 
-    return cpms[0];
+    return cpms;
 }
 
 
