@@ -35,7 +35,7 @@ inline Company* parseUniqueCompanies
        auto* x = new Company(id, name);
        search = filterFunction(*x);
 
-       if(search != current){
+       if(search != current && x->getId() > 0){
            cpms[i] = *x;
        } else{
            --N;
