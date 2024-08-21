@@ -5,5 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Solution-SoftuniCPP-OOP
         "Exercises/Rule Three_Five_Zero/06. ArrayOfPointers/Skeleton/ArrayOfPointersMain.cpp"
+        "Exercises/Rule Three_Five_Zero/03. MakeCompany/Skeleton/MakeCompany.h"
 
 )
