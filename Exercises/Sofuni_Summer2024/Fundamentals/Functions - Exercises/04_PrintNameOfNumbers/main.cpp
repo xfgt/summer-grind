@@ -8,16 +8,16 @@
 
 std::string getDigitName(char x ='0'){
     switch (x){
-    case '0': return "zero ";
-    case '1': return "one ";
-    case '2': return "two ";
-    case '3': return "three ";
-    case '4': return "four ";
-    case '5': return "five ";
-    case '6': return "six ";
-    case '7': return "seven ";
-    case '8': return "eight ";
-    case '9': return "nine ";
+    case '0': return "zero";
+    case '1': return "one";
+    case '2': return "two";
+    case '3': return "three";
+    case '4': return "four";
+    case '5': return "five";
+    case '6': return "six";
+    case '7': return "seven";
+    case '8': return "eight";
+    case '9': return "nine";
         default:
             return "";
     }
@@ -25,29 +25,30 @@ std::string getDigitName(char x ='0'){
 
 
 std::string processNumber(std::string x, size_t sz){
+    if(x[0] == '-')
+        return "";
     if(sz > 4)
         return "";
 
-    bool hasDec = false;
     std::string output{};
     int type{};
+    bool caseTenHit = false;
 
     for (int i = 0; i < sz; i++){
-
         type = std::pow(10,sz-i-1);
+
         switch (type){
         case 1000:
-            output += getDigitName(x[i]) + "thousand ";
+            if(x[i] != '0')
+                output += getDigitName(x[i]) + " thousand ";
             break;
         case 100:
             if(x[i] != '0')
-                output += getDigitName(x[i]) + "hundred ";
+                output += getDigitName(x[i]) + " hundred ";
             break;
 
-
-
         case 10:
-            hasDec = true;
+            caseTenHit = true;
             switch (x[i]){
             case '1':
                 switch (x[i+1]){ // teen
@@ -60,62 +61,62 @@ std::string processNumber(std::string x, size_t sz){
                 case '2':
                     output += "twelve";
                         break;
+                // teen
                 case '3':
-                    output += "thirteen";
+                    output += "thir";
                         break;
                 case '5':
-                    output += "fifteen";
+                    output += "fif";
                         break;
                 case '8':
-                    output += "eighteen";
+                    output += "eigh";
                     break;
 
                 case '4':
                 case '6':
                 case '7':
                 case '9':
-                    output += getDigitName(x[i+1]) + "teen";
+                    output += getDigitName(x[i+1]);
                         break;
                 default:
                     break;
-
                 }
-                break;
-        case '2':
-            output += "twenty";
-                break;
-        case '3':
-            output += "thirty";
-                break;
-        case '5':
-            output += "fifty";
+                if(x[i+1] != '0' && x[i+1] != '1' && x[i+1] != '2')
+                    output += "teen ";
                 break;
 
-        case '4':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            output += getDigitName(x[i]) + "ty";
+
+            case '2':
+                output += "twen";
+                    break;
+            case '3':
+                output += "thir";
+                    break;
+            case '5':
+                output += "fif";
+                    break;
+            case '8':
+                output += "eigh";
                 break;
-        default:
-            break;
+
+            case '4':
+            case '6':
+            case '7':
+            case '9':
+                output += getDigitName(x[i]);
+                    break;
+            default:
+                break;
             }
-
+            if(x[i] != '0' && x[i] != '1')
+                output += "ty ";
             break;
-
-
-
-
 
         case 1:
-            if(hasDec && x[i-1] != 0){
+            if(caseTenHit && x[i-1] != '1' && x[i] != '0')
                 output += getDigitName(x[i]);
-                hasDec = false; //todo
-            } else if(!hasDec){
+            else if(sz == 1)
                 output += getDigitName(x[i]);
-            }
-
 
             break;
 
@@ -127,15 +128,21 @@ std::string processNumber(std::string x, size_t sz){
 
     return output;
 }
-
+void test(std::string& number){
+    for(int i = 0; i <= 9999; i++){
+        number = std::to_string(i);
+    //    std::getline(std::cin, number);
+        std::cout << i << ":\t" << processNumber(number, number.size()) << std::endl;
+    }
+}
 int main(){
 
     std::string number{};
-    while(true){
-        std::getline(std::cin, number);
-        std::cout << processNumber(number, number.size()) << std::endl;
-    }
 
+    test(number);
+
+    // std::getline(std::cin, number);
+    // std::cout << processNumber(number, number.size()) << std::endl;
 
     return 0;
 }
