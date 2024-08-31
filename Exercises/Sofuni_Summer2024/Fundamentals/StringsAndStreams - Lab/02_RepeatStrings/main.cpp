@@ -11,7 +11,12 @@
 
 int main(){
 
-
+    std::string word{};
+    while(std::cin >> word){
+        for(size_t i = 0; i < word.size(); i++){
+            std::cout << word;
+        }
+    }
 
     return 0;
 }
