@@ -4,6 +4,7 @@
 
 
 #include <iostream>
+#include <cmath>
 
 int main(){
 
@@ -16,8 +17,24 @@ int main(){
     for(int i = 0; i < N; i++)
         std::cin >> X[i];
 
-    // todo
 
+
+    int diff{}, old{-99999};
+    for(int i = 0; i < N; i++){
+        int& first = X[i];
+        for(int j = i+1; j < N; j++){
+            int& second = X[j];
+            diff = first - second;
+
+            if(old < diff){
+                if(abs(old) > abs(diff))
+                    old = diff;
+            }
+        }
+
+    }
+
+    std::cout << abs(old);
 
 
 
