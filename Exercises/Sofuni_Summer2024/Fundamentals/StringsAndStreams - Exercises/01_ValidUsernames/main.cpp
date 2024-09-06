@@ -9,24 +9,27 @@
 #include <string>
 
 
-bool check(const std::string& x, const size_t& sz) {
+bool check(std::string& x,  size_t sz) {
+    if(x[0] == ' '){
+        x.erase(std::remove_if(x.begin(), x.end(), ::isspace), x.end());
+        sz = x.size();
+    }
+
     if(sz < 3 || sz > 16)
         return false;
 
     size_t i = 0;
     while(i != sz){
 
-
-        if (!(x[i] >= 'a' && x[i] <= 'z' || x[i] >= 'A' && x[i] <= 'Z')){
-            return false;
-        } else if (!(x[i] >= '0' && x[i] <= '9')){
-            return false;
-        } else if(!(x[i] == '-' || x[i] == '_')){
-            return false;
-        } else{
-            return true;
+        if(x[i] == '\0'){
+            i++;
+            continue;
         }
 
+        if (!(x[i] >= 'a' && x[i] <= 'z' || x[i] >= 'A' && x[i] <= 'Z'))
+            if (!(x[i] >= '0' && x[i] <= '9'))
+                if(!(x[i] == '-' || x[i] == '_'))
+                    return false;
         i++;
     }
     return true;
@@ -40,10 +43,13 @@ int main(){
 
 
     while(std::getline(ss, hold, ',')){
+
         if(check(hold, hold.size())){
-            hold.erase(std::remove_if(hold.begin(), hold.end(), ::isspace), hold.end());
+
             std::cout << hold << std::endl;
         }
+
+
     }
 
     return 0;
